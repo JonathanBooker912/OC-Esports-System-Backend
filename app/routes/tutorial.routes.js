@@ -24,5 +24,5 @@ module.exports = (app) => {
   // Delete all Tutorials
   router.delete("/", [authenticate], tutorials.deleteAll);
 
-  app.use("/tutorial/tutorials", router);
+  app.use("/EsportsAPI/tutorials", router);
 };

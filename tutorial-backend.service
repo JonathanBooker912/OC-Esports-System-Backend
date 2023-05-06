@@ -1,11 +1,11 @@
 [Unit]
-Description=NodeJS Tutorial App
+Description=NodeJS Esports App Backend
 After=network.target
  
 [Service]
 Type=simple
 User=ubuntu
-WorkingDirectory=/home/ubuntu/nodeapps/tutorial-backend/
+WorkingDirectory=/home/ubuntu/nodeapps/esports-backend/
 ExecStart=/usr/bin/npm run start
 Restart=on-failure
  
