@@ -39,7 +39,7 @@ describe("tutorial controller", () => {
     it("authenticates the user", async () => {
       mockFindAllFunction.mockResolvedValue(Promise.resolve([]));
       await request(app)
-        .get("/tutorial/tutorials")
+        .get("/EsportsAPI/tutorials")
         .then((response) => {
           expect(authFunction).toHaveBeenCalled();
         });
@@ -48,7 +48,7 @@ describe("tutorial controller", () => {
     it("calls findAll without query", async () => {
       mockFindAllFunction.mockResolvedValue(Promise.resolve([]));
       await request(app)
-        .get("/tutorial/tutorials")
+        .get("/EsportsAPI/tutorials")
         .expect(200)
         .then((response) => {
           expect(mockFindAllFunction).toHaveBeenCalled();
@@ -58,7 +58,7 @@ describe("tutorial controller", () => {
     it("calls findAll with query", async () => {
       mockFindAllFunction.mockResolvedValue(Promise.resolve([]));
       await request(app)
-        .get("/tutorial/tutorials?title=Automated")
+        .get("/EsportsAPI/tutorials?title=Automated")
         .expect(200)
         .then((response) => {
           expect(mockFindAllFunction).toHaveBeenCalledWith({
@@ -74,7 +74,7 @@ describe("tutorial controller", () => {
     it("responds with results from findAll", async () => {
       mockFindAllFunction.mockResolvedValue(Promise.resolve([testTutorial]));
       await request(app)
-        .get("/tutorial/tutorials")
+        .get("/EsportsAPI/tutorials")
         .expect(200)
         .then((response) => {
           expect(response.body).toHaveLength(1);
@@ -87,7 +87,7 @@ describe("tutorial controller", () => {
         Promise.reject(new Error("Fake error from test"))
       );
       await request(app)
-        .get("/tutorial/tutorials")
+        .get("/EsportsAPI/tutorials")
         .expect(500)
         .then((response) => {
           expect(response.body.message).toBe("Fake error from test");
@@ -99,7 +99,7 @@ describe("tutorial controller", () => {
     it("authenticates the user", async () => {
       mockFindAllFunction.mockResolvedValue(Promise.resolve([]));
       await request(app)
-        .get("/tutorial/tutorials/userTut/1")
+        .get("/EsportsAPI/tutorials/userTut/1")
         .then((response) => {
           expect(authFunction).toHaveBeenCalled();
         });
@@ -108,7 +108,7 @@ describe("tutorial controller", () => {
     it("calls findAllForUser", async () => {
       mockFindAllFunction.mockResolvedValue(Promise.resolve([]));
       await request(app)
-        .get("/tutorial/tutorials/userTut/1")
+        .get("/EsportsAPI/tutorials/userTut/1")
         .expect(200)
         .then((response) => {
           expect(mockFindAllFunction).toHaveBeenCalledWith({
@@ -124,7 +124,7 @@ describe("tutorial controller", () => {
         await Promise.resolve([testTutorial])
       );
       await request(app)
-        .get("/tutorial/tutorials/userTut/1")
+        .get("/EsportsAPI/tutorials/userTut/1")
         .expect(200)
         .then((response) => {
           expect(response.body).toHaveLength(1);
@@ -137,7 +137,7 @@ describe("tutorial controller", () => {
         Promise.reject(new Error("Fake error from test"))
       );
       await request(app)
-        .get("/tutorial/tutorials/userTut/1")
+        .get("/EsportsAPI/tutorials/userTut/1")
         .expect(500)
         .then((response) => {
           expect(response.body.message).toBe("Fake error from test");
@@ -149,7 +149,7 @@ describe("tutorial controller", () => {
     it("authenticates the user", async () => {
       mockFindByPkFunction.mockResolvedValue(Promise.resolve([]));
       await request(app)
-        .get("/tutorial/tutorials/1")
+        .get("/EsportsAPI/tutorials/1")
         .then((response) => {
           expect(authFunction).toHaveBeenCalled();
         });
@@ -158,7 +158,7 @@ describe("tutorial controller", () => {
     it("calls findOne", async () => {
       mockFindByPkFunction.mockResolvedValue(Promise.resolve([]));
       await request(app)
-        .get("/tutorial/tutorials/1")
+        .get("/EsportsAPI/tutorials/1")
         .expect(200)
         .then((response) => {
           expect(mockFindByPkFunction).toHaveBeenCalledWith("1");
@@ -170,7 +170,7 @@ describe("tutorial controller", () => {
         await Promise.resolve([testTutorial])
       );
       await request(app)
-        .get("/tutorial/tutorials/1")
+        .get("/EsportsAPI/tutorials/1")
         .expect(200)
         .then((response) => {
           expect(response.body).toHaveLength(1);
@@ -183,7 +183,7 @@ describe("tutorial controller", () => {
         Promise.reject(new Error("Fake error from test"))
       );
       await request(app)
-        .get("/tutorial/tutorials/1")
+        .get("/EsportsAPI/tutorials/1")
         .expect(500)
         .then((response) => {
           expect(response.body.message).toBe("Fake error from test");
