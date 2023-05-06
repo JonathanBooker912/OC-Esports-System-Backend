@@ -54,7 +54,6 @@ jobs:
           debug: false
           command: |
             cd nodeapps/esports-backend
-            npm install
             sudo systemctl stop esports-backend
             sudo cp esports-backend.service /lib/systemd/system/esports-backend.service
             sudo systemctl daemon-reload
