@@ -13,8 +13,44 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    phoneNumber: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     email: {
       type: Sequelize.STRING,
+      allowNull: false,
+    },
+    address: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    shirtSize: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    pantSize: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    outsidePC: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    },
+    fullVacc: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    },
+    classification: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    expectedGradDate: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    activePlayer: {
+      type: Sequelize.BOOLEAN,
       allowNull: false,
     },
     role: {

@@ -18,6 +18,8 @@ db.user = require("./user.model.js")(sequelize, Sequelize);
 db.session = require("./session.model.js")(sequelize, Sequelize);
 db.tutorial = require("./tutorial.model.js")(sequelize, Sequelize);
 db.lesson = require("./lesson.model.js")(sequelize, Sequelize);
+db.alias = require("./alias.model.js")(sequelize, Sequelize);
+db.emergencyContact = require("./emergencyContact.model.js")(sequelize, Sequelize);
 
 // foreign key for session
 db.user.hasMany(
@@ -53,6 +55,30 @@ db.lesson.belongsTo(
   db.tutorial,
   { as: "tutorial" },
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
+);
+
+// foreign key for emergency contact
+db.user.hasMany(
+  db.emergencyContact,
+  { as: "emergencyContact" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
+);
+db.emergencyContact.belongsTo(
+  db.user,
+  { as: "user"},
+  { foreignKey: {allowNull: false }, onDelete: "CASCADE" }
+);
+
+// foreign key for alias
+db.user.hasMany(
+  db.alias,
+  { as: "alias" },
+  { foreignKey: {allowNull: false}, onDelete: "CASCADE" }
+);
+db.alias.belongsTo(
+  db.user,
+  { as: "user" },
+  { foreignKey: {allowNull: false }, onDelete: "CASCADE" }
 );
 
 module.exports = db;
