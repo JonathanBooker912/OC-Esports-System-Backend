@@ -31,6 +31,7 @@ require("./app/routes/auth.routes.js")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/tutorial.routes")(app);
 require("./app/routes/lesson.routes")(app);
+require("./app/routes/title.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3100;

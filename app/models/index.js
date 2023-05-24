@@ -18,6 +18,7 @@ db.user = require("./user.model.js")(sequelize, Sequelize);
 db.session = require("./session.model.js")(sequelize, Sequelize);
 db.tutorial = require("./tutorial.model.js")(sequelize, Sequelize);
 db.lesson = require("./lesson.model.js")(sequelize, Sequelize);
+db.title = require("./title.model.js")(sequelize, Sequelize);
 
 // foreign key for session
 db.user.hasMany(
