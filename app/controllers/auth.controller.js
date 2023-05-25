@@ -160,7 +160,7 @@ exports.login = async (req, res) => {
             // expiration_date: user.expiration_date
           };
           //console.log("found a session, don't need to make another one");
-          //console.log(userInfo);
+          console.log(userInfo);
           console.log("Is this the problem?");
           res.send(userInfo);
         }

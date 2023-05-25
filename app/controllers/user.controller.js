@@ -26,7 +26,7 @@ exports.create = (req, res) => {
     res.status(400).send({
       message: "Address can not be empty!",
     })
-  } else if (!req.body.shirtSize) {
+  } /*else if (!req.body.shirtSize) {
     res.status(400).send({
       message: "Shirt size can not be empty!",
     })
@@ -58,7 +58,7 @@ exports.create = (req, res) => {
     res.status(400).send({
       message: "Role can not be empty!",
     })
-  }
+  }*/
 
   // Create a User
   const user = {
@@ -75,6 +75,7 @@ exports.create = (req, res) => {
     classification: req.body.classification,
     expectedGradDate: req.body.expectedGradDate,
     activePlayer: req.body.activePlayer,
+    dateSignedAgreement: req.body.dateSignedAgreement,
     role: req.body.role,
     // refresh_token: req.body.refresh_token,
     // expiration_date: req.body.expiration_date
