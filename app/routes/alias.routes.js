@@ -4,22 +4,22 @@ module.exports = (app) => {
     var router = require("express").Router();
 
     //Create alias
-    router.post("/", [authenticate], alias.create);
+    router.post("/:userId/alias", [authenticate], alias.create);
 
-    //Find all aliases
-    router.get("/", [authenticate], alias.findAll);
+    //Find all aliases for a user
+    router.get("/:userId/alias", [authenticate], alias.findAll);
 
-    //Find one alias
-    router.get("/:id", [authenticate], alias.findOne);
+    //Find one alias for a user
+    router.get("/:userId/alias/:id", [authenticate], alias.findOne);
 
     //Update alias
-    router.put("/:id", [authenticate], alias.update);
+    router.put("/:userId/alias/:id", [authenticate], alias.update);
 
     //Delete one alias
-    router.delete("/:id", [authenticate], alias.deleteOne);
+    router.delete("/:userId/alias/:id", [authenticate], alias.deleteOne);
 
-    //Delete all aliases
-    router.delete("/", [authenticate], alias.deleteAll);
+    //Delete all aliases for one user
+    router.delete("/:userId/alias", [authenticate], alias.deleteAll);
 
-    app.use("/", router);
+    app.use("/EsportsAPI/user", router);
 }
