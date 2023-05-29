@@ -7,17 +7,76 @@ exports.create = (req, res) => {
   // Validate request
   if (!req.body.fName) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      message: "First name can not be empty!",
     });
     return;
-  }
+  } else if (!req.body.lName) {
+    res.status(400).send({
+      message: "Last name can not be empty!",
+    })
+  } else if (!req.body.phoneNumber) {
+    res.status(400).send({
+      message: "Phone number can not be empty!",
+    })
+  } else if (!req.body.email) {
+    res.status(400).send({
+      message: "Email can not be empty!",
+    })
+  } else if (!req.body.address) {
+    res.status(400).send({
+      message: "Address can not be empty!",
+    })
+  } /*else if (!req.body.shirtSize) {
+    res.status(400).send({
+      message: "Shirt size can not be empty!",
+    })
+  } else if (!req.body.pantSize) {
+    res.status(400).send({
+      message: "Pant size can not be empty!",
+    })
+  }else if (!req.body.outsidePC) {
+    res.status(400).send({
+      message: "Outside PC can not be empty!",
+    })
+  }else if (!req.body.fullVacc) {
+    res.status(400).send({
+      message: "Full Vacc can not be empty!",
+    })
+  }else if (!req.body.classification) {
+    res.status(400).send({
+      message: "Classification can not be empty!",
+    })
+  }else if (!req.body.expectedGradDate) {
+    res.status(400).send({
+      message: "Expected grad date can not be empty!",
+    })
+  }else if (!req.body.activePlayer) {
+    res.status(400).send({
+      message: "Active player can not be empty!",
+    })
+  }else if (!req.body.role) {
+    res.status(400).send({
+      message: "Role can not be empty!",
+    })
+  }*/
 
   // Create a User
   const user = {
     id: req.body.id,
     fName: req.body.fName,
     lName: req.body.lName,
+    phoneNumber: req.body.phoneNumber,
     email: req.body.email,
+    address: req.body.address,
+    shirtSize: req.body.shirtSize,
+    pantSize: req.body.pantSize,
+    outsidePC: req.body.outsidePC,
+    fullVacc: req.body.fullVacc,
+    classification: req.body.classification,
+    expectedGradDate: req.body.expectedGradDate,
+    activePlayer: req.body.activePlayer,
+    dateSignedAgreement: req.body.dateSignedAgreement,
+    role: req.body.role,
     // refresh_token: req.body.refresh_token,
     // expiration_date: req.body.expiration_date
   };

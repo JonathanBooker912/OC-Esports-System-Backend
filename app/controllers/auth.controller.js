@@ -16,7 +16,7 @@ exports.login = async (req, res) => {
   console.log(req.body);
 
   var googleToken = req.body.credential;
-
+  console.log("Made it to here");
   const { OAuth2Client } = require("google-auth-library");
   const client = new OAuth2Client(google_id);
   async function verify() {
@@ -146,6 +146,7 @@ exports.login = async (req, res) => {
               });
             });
           //reset session to be null since we need to make another one
+          console.log("Made it here");
           session = {};
         } else {
           // if the session is still valid, then send info to the front end
@@ -158,8 +159,9 @@ exports.login = async (req, res) => {
             // refresh_token: user.refresh_token,
             // expiration_date: user.expiration_date
           };
-          console.log("found a session, don't need to make another one");
+          //console.log("found a session, don't need to make another one");
           console.log(userInfo);
+          console.log("Is this the problem?");
           res.send(userInfo);
         }
       }
