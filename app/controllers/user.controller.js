@@ -13,19 +13,19 @@ exports.create = (req, res) => {
   } else if (!req.body.lName) {
     res.status(400).send({
       message: "Last name can not be empty!",
-    })
+    });
   } else if (!req.body.phoneNumber) {
     res.status(400).send({
       message: "Phone number can not be empty!",
-    })
+    });
   } else if (!req.body.email) {
     res.status(400).send({
       message: "Email can not be empty!",
-    })
+    });
   } else if (!req.body.address) {
     res.status(400).send({
       message: "Address can not be empty!",
-    })
+    });
   } /*else if (!req.body.shirtSize) {
     res.status(400).send({
       message: "Shirt size can not be empty!",
@@ -67,7 +67,9 @@ exports.create = (req, res) => {
     lName: req.body.lName,
     phoneNumber: req.body.phoneNumber,
     email: req.body.email,
-    address: req.body.address,
+    city: req.body.city,
+    state: req.body.state,
+    country: req.body.country,
     shirtSize: req.body.shirtSize,
     pantSize: req.body.pantSize,
     outsidePC: req.body.outsidePC,
@@ -160,6 +162,11 @@ exports.findByEmail = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
+  /* If the request conatains a field for role, remove it to prevent access control violation */
+  if (req.body.role != null) {
+    delete req.body.role;
+  }
+
   User.update(req.body, {
     where: { id: id },
   })
@@ -221,4 +228,9 @@ exports.deleteAll = (req, res) => {
           err.message || "Some error occurred while removing all people.",
       });
     });
+};
+
+// Delete all People from the database.
+exports.getClassifications = (req, res) => {
+  res.send(User.getAttributes().classification.values);
 };

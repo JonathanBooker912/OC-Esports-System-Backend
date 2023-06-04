@@ -8,14 +8,13 @@ var alterDB = false;
 const args = process.argv.slice(2);
 if (args[0] === "alter") {
   console.log("NOTICE: Altering Database Tables");
-  alterDb = true;
+  alterDB = true;
 }
 
 const app = express();
 
 const db = require("./app/models");
-
-db.sequelize.sync({ alter: { alterDB } });
+db.sequelize.sync({ alter: alterDB });
 
 var corsOptions = {
   origin: "http://localhost:8081",
@@ -37,12 +36,13 @@ app.get("/", (req, res) => {
 
 require("./app/routes/auth.routes.js")(app);
 require("./app/routes/user.routes")(app);
-require("./app/routes/tutorial.routes")(app);
-require("./app/routes/lesson.routes")(app);
 require("./app/routes/title.routes")(app);
 require("./app/routes/alias.routes.js")(app);
 require("./app/routes/emergencyContact.routes.js")(app);
 
+// Old Routes
+//require("./app/routes/tutorial.routes")(app);
+//require("./app/routes/lesson.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3100;
