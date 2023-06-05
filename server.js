@@ -40,10 +40,6 @@ require("./app/routes/title.routes")(app);
 require("./app/routes/alias.routes.js")(app);
 require("./app/routes/emergencyContact.routes.js")(app);
 
-// Old Routes
-//require("./app/routes/tutorial.routes")(app);
-//require("./app/routes/lesson.routes")(app);
-
 // set port, listen for requests
 const PORT = process.env.PORT || 3100;
 if (process.env.NODE_ENV !== "test") {

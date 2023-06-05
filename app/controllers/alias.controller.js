@@ -53,6 +53,7 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   const id = req.query.id;
   const type = req.query.type;
+  
   var condition = id
     ? { id: { [Op.like]: `%${id}%` } }
     : type
@@ -90,25 +91,6 @@ exports.findOne = (req, res) => {
     });
 };
 
-exports.findPrimary = (req, res) => {
-  Alias.findAll({
-    where: {
-      userId: req.params.userId,
-      aliasType: "Primary",
-    },
-  })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message ||
-          "Something went wrong while retrieving the primary alias",
-      });
-    });
-};
-
 exports.update = (req, res) => {
   const id = req.params.id;
 
@@ -135,7 +117,6 @@ exports.update = (req, res) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).send({
         message: "There was an error while updating Alias with id=" + id,
       });

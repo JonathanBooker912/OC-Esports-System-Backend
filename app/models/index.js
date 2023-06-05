@@ -23,9 +23,6 @@ db.emergencyContact = require("./emergencyContact.model.js")(
   Sequelize
 );
 
-// Old Tables
-//db.tutorial = require("./tutorial.model.js")(sequelize, Sequelize);
-//db.lesson = require("./lesson.model.js")(sequelize, Sequelize);
 
 // foreign key for session
 db.user.hasMany(
@@ -61,6 +58,14 @@ db.alias.belongsTo(
   db.user,
   { as: "user" },
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
+);
+
+// Foreign key for title in alias
+db.title.hasMany(
+  db.alias,
+  { as: "alias" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
+
 );
 
 module.exports = db;

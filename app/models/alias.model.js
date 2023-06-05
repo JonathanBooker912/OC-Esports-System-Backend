@@ -8,9 +8,6 @@ module.exports = (sequelize, Sequelize) => {
     aliasType: {
       type: Sequelize.ENUM("Primary", "Alternate"),
     },
-    title: {
-      type: Sequelize.STRING,
-    },
     gamerTag: {
       type: Sequelize.STRING,
     },
