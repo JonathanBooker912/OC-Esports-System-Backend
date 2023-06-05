@@ -2,12 +2,19 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+var alterDB = false;
+
+/* This allows you to run the "alter" command from the command line*/
+const args = process.argv.slice(2);
+if (args[0] === "alter") {
+  console.log("NOTICE: Altering Database Tables");
+  alterDB = true;
+}
 
 const app = express();
 
 const db = require("./app/models");
-
-db.sequelize.sync();
+db.sequelize.sync({ alter: alterDB });
 
 var corsOptions = {
   origin: "http://localhost:8081",
@@ -29,8 +36,6 @@ app.get("/", (req, res) => {
 
 require("./app/routes/auth.routes.js")(app);
 require("./app/routes/user.routes")(app);
-require("./app/routes/tutorial.routes")(app);
-require("./app/routes/lesson.routes")(app);
 require("./app/routes/title.routes")(app);
 require("./app/routes/alias.routes.js")(app);
 require("./app/routes/emergencyContact.routes.js")(app);

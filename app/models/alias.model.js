@@ -5,6 +5,9 @@ module.exports = (sequelize, Sequelize) => {
       autoIncrement: true,
       primaryKey: true,
     },
+    aliasType: {
+      type: Sequelize.ENUM("Primary", "Alternate"),
+    },
     gamerTag: {
       type: Sequelize.STRING,
     },

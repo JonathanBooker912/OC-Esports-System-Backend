@@ -14,30 +14,51 @@ exports.create = (req, res) => {
     });
   }
 
-  console.log(req.body);
   //Create alias
   const alias = {
     id: req.body.id,
-    titleId: req.body.title,
-    gamerTag: req.body.gamerTag,
     userId: req.params.userId,
+    aliasType: req.params.aliasType,
+    title: req.body.title,
+    gamerTag: req.body.gamerTag,
   };
 
   // Save Alias in the database
-  Alias.create(alias)
+
+  Alias.findAll({ where: { aliasType: "Primary" } })
     .then((data) => {
-      res.send(data);
+      if (data.length != 0) {
+        alias.aliasType = "Alternate";
+      } else {
+        alias.aliasType = "Primary";
+      }
+      Alias.create(alias)
+        .then((data) => {
+          res.send(data);
+        })
+        .catch((err) => {
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while creating the Alias.",
+          });
+        });
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the Alias.",
+        message: err.message || "Something went wrong during validation checks",
       });
     });
 };
 
 exports.findAll = (req, res) => {
   const id = req.query.id;
-  var condition = id ? { id: { [Op.like]: `%${id}%` } } : null;
+  const type = req.query.type;
+  
+  var condition = id
+    ? { id: { [Op.like]: `%${id}%` } }
+    : type
+    ? { aliasType: { [Op.like]: `%${type}%` } }
+    : null;
 
   Alias.findAll({ where: condition })
     .then((data) => {
@@ -73,7 +94,14 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Alias.update(req.body, {
+  const alias = {
+    id: id,
+    title: req.body.title,
+    gamerTag: req.body.gamerTag,
+    userId: req.params.userId,
+  };
+
+  Alias.update(alias, {
     where: { id: id },
   })
     .then((num) => {
