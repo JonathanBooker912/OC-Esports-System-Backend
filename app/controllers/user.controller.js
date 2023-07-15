@@ -13,19 +13,19 @@ exports.create = (req, res) => {
   } else if (!req.body.lName) {
     res.status(400).send({
       message: "Last name can not be empty!",
-    })
+    });
   } else if (!req.body.phoneNumber) {
     res.status(400).send({
       message: "Phone number can not be empty!",
-    })
+    });
   } else if (!req.body.email) {
     res.status(400).send({
       message: "Email can not be empty!",
-    })
+    });
   } else if (!req.body.address) {
     res.status(400).send({
       message: "Address can not be empty!",
-    })
+    });
   } /*else if (!req.body.shirtSize) {
     res.status(400).send({
       message: "Shirt size can not be empty!",
@@ -96,17 +96,58 @@ exports.create = (req, res) => {
 // Retrieve all People from the database.
 exports.findAll = (req, res) => {
   const id = req.query.id;
-  var condition = id ? { id: { [Op.like]: `%${id}%` } } : null;
+  const filter = req.query.filter;
+  const offset = req.query.pageSize * (req.query.page - 1);
+  const limit = Number(req.query.pageSize);
 
-  User.findAll({ where: condition })
-    .then((data) => {
-      res.send(data);
+  if (filter == undefined || filter == "" || filter == null) {
+    var condition = id ? { id: { [Op.like]: `%${id}%` } } : null;
+    User.findAndCountAll({
+      where: condition,
+      offset: offset,
+      limit: limit,
     })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while retrieving people.",
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while retrieving users.",
+        });
       });
-    });
+  } else {
+    var condition = {
+      [Op.or]: [
+        { id: { [Op.like]: "%" + filter + "%" } },
+        { fName: { [Op.like]: "%" + filter + "%" } },
+        { lName: { [Op.like]: "%" + filter + "%" } },
+      ],
+    };
+    User.findAndCountAll({
+      where: {
+        [Op.or]: {
+          id: { [Op.like]: "%" + filter + "%" },
+          fName: { [Op.like]: "%" + filter + "%" },
+          lName: { [Op.like]: "%" + filter + "%" },
+        },
+      },
+      offset: offset,
+      limit: limit,
+    })
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while retrieving users.",
+        });
+      });
+  }
+};
+
+exports.findFor = (req, res) => {
+  const filter = req.query.filter;
+  const offset = req.query.pageSize * req.query.page;
 };
 
 // Find a single User with an id
