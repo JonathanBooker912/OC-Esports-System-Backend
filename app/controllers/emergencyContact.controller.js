@@ -16,10 +16,6 @@ exports.create = (req, res) => {
     res.status(400).send({
       message: "Phone number can not be empty",
     });
-  } else if (!req.body.emailAddress) {
-    res.status(400).send({
-      message: "Email address can not be empty",
-    });
   } else if (!req.body.relationship) {
     res.status(400).send({
       message: "Relationship can not be empty",
@@ -90,18 +86,21 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
   const userId = req.params.id;
+  console.log(id, userId);
+  console.log(req.body);
 
   EmergencyContact.update(req.body, {
     where: { id: id, userId: userId },
   })
     .then((num) => {
+      console.log(num);
       if (num == 1) {
         res.send({
           message: "Emergency Contact was updated successfully.",
         });
       } else {
         res.send({
-          message: "Cannot update Emergency Contact with id=${id}",
+          message: `Cannot update Emergency Contact with id=${id}`,
         });
       }
     })

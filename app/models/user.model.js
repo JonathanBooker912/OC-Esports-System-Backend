@@ -7,11 +7,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     fName: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     lName: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     phoneNumber: {
       type: Sequelize.STRING,
@@ -62,6 +60,11 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
       defaultValue: "User",
+    },
+    accountUpToDate: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
     // refresh_token: {
     //   type: Sequelize.STRING(512),

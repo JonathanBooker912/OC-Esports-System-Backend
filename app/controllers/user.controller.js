@@ -5,60 +5,12 @@ const Op = db.Sequelize.Op;
 // Create and Save a new User
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.fName) {
-    res.status(400).send({
-      message: "First name can not be empty!",
-    });
-    return;
-  } else if (!req.body.lName) {
-    res.status(400).send({
-      message: "Last name can not be empty!",
-    });
-  } else if (!req.body.phoneNumber) {
-    res.status(400).send({
-      message: "Phone number can not be empty!",
-    });
-  } else if (!req.body.email) {
+  if (!req.body.email) {
     res.status(400).send({
       message: "Email can not be empty!",
     });
-  } else if (!req.body.address) {
-    res.status(400).send({
-      message: "Address can not be empty!",
-    });
-  } /*else if (!req.body.shirtSize) {
-    res.status(400).send({
-      message: "Shirt size can not be empty!",
-    })
-  } else if (!req.body.pantSize) {
-    res.status(400).send({
-      message: "Pant size can not be empty!",
-    })
-  }else if (!req.body.outsidePC) {
-    res.status(400).send({
-      message: "Outside PC can not be empty!",
-    })
-  }else if (!req.body.fullVacc) {
-    res.status(400).send({
-      message: "Full Vacc can not be empty!",
-    })
-  }else if (!req.body.classification) {
-    res.status(400).send({
-      message: "Classification can not be empty!",
-    })
-  }else if (!req.body.expectedGradDate) {
-    res.status(400).send({
-      message: "Expected grad date can not be empty!",
-    })
-  }else if (!req.body.activePlayer) {
-    res.status(400).send({
-      message: "Active player can not be empty!",
-    })
-  }else if (!req.body.role) {
-    res.status(400).send({
-      message: "Role can not be empty!",
-    })
-  }*/
+    return;
+  }
 
   // Create a User
   const user = {
@@ -78,7 +30,7 @@ exports.create = (req, res) => {
     expectedGradDate: req.body.expectedGradDate,
     activePlayer: req.body.activePlayer,
     dateSignedAgreement: req.body.dateSignedAgreement,
-    role: req.body.role,
+    role: "user",
     // refresh_token: req.body.refresh_token,
     // expiration_date: req.body.expiration_date
   };
@@ -98,7 +50,12 @@ exports.create = (req, res) => {
 // Retrieve all People from the database.
 exports.findAll = (req, res) => {
   const id = req.query.id;
-  var condition = id ? { id: { [Op.like]: `%${id}%` } } : null;
+  const email = req.query.email;
+  var condition = id
+    ? { id: { [Op.like]: `%${id}%` } }
+    : email
+    ? { email: { [Op.like]: `%${email}%` } }
+    : null;
 
   User.findAll({ where: condition })
     .then((data) => {
