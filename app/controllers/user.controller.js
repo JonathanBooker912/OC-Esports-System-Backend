@@ -5,60 +5,60 @@ const Op = db.Sequelize.Op;
 // Create and Save a new User
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.fName) {
-    res.status(400).send({
-      message: "First name can not be empty!",
-    });
-    return;
-  } else if (!req.body.lName) {
-    res.status(400).send({
-      message: "Last name can not be empty!",
-    })
-  } else if (!req.body.phoneNumber) {
-    res.status(400).send({
-      message: "Phone number can not be empty!",
-    })
-  } else if (!req.body.email) {
+  if (!req.body.email) {
     res.status(400).send({
       message: "Email can not be empty!",
-    })
-  } else if (!req.body.address) {
-    res.status(400).send({
-      message: "Address can not be empty!",
-    })
-  } /*else if (!req.body.shirtSize) {
-    res.status(400).send({
-      message: "Shirt size can not be empty!",
-    })
-  } else if (!req.body.pantSize) {
-    res.status(400).send({
-      message: "Pant size can not be empty!",
-    })
-  }else if (!req.body.outsidePC) {
-    res.status(400).send({
-      message: "Outside PC can not be empty!",
-    })
-  }else if (!req.body.fullVacc) {
-    res.status(400).send({
-      message: "Full Vacc can not be empty!",
-    })
-  }else if (!req.body.classification) {
-    res.status(400).send({
-      message: "Classification can not be empty!",
-    })
-  }else if (!req.body.expectedGradDate) {
-    res.status(400).send({
-      message: "Expected grad date can not be empty!",
-    })
-  }else if (!req.body.activePlayer) {
-    res.status(400).send({
-      message: "Active player can not be empty!",
-    })
-  }else if (!req.body.role) {
-    res.status(400).send({
-      message: "Role can not be empty!",
-    })
-  }*/
+    });
+    return;
+  } //else if (!req.body.lName) {
+  //   res.status(400).send({
+  //     message: "Last name can not be empty!",
+  //   });
+  // } else if (!req.body.phoneNumber) {
+  //   res.status(400).send({
+  //     message: "Phone number can not be empty!",
+  //   });
+  // } else if (!req.body.email) {
+  //   res.status(400).send({
+  //     message: "Email can not be empty!",
+  //   });
+  // } else if (!req.body.address) {
+  //   res.status(400).send({
+  //     message: "Address can not be empty!",
+  //   });
+  // } /*else if (!req.body.shirtSize) {
+  //   res.status(400).send({
+  //     message: "Shirt size can not be empty!",
+  //   })
+  // } else if (!req.body.pantSize) {
+  //   res.status(400).send({
+  //     message: "Pant size can not be empty!",
+  //   })
+  // }else if (!req.body.outsidePC) {
+  //   res.status(400).send({
+  //     message: "Outside PC can not be empty!",
+  //   })
+  // }else if (!req.body.fullVacc) {
+  //   res.status(400).send({
+  //     message: "Full Vacc can not be empty!",
+  //   })
+  // }else if (!req.body.classification) {
+  //   res.status(400).send({
+  //     message: "Classification can not be empty!",
+  //   })
+  // }else if (!req.body.expectedGradDate) {
+  //   res.status(400).send({
+  //     message: "Expected grad date can not be empty!",
+  //   })
+  // }else if (!req.body.activePlayer) {
+  //   res.status(400).send({
+  //     message: "Active player can not be empty!",
+  //   })
+  // }else if (!req.body.role) {
+  //   res.status(400).send({
+  //     message: "Role can not be empty!",
+  //   })
+  // }*/
 
   // Create a User
   const user = {
@@ -67,7 +67,9 @@ exports.create = (req, res) => {
     lName: req.body.lName,
     phoneNumber: req.body.phoneNumber,
     email: req.body.email,
-    address: req.body.address,
+    city: req.body.city,
+    state: req.body.state,
+    country: req.body.country,
     shirtSize: req.body.shirtSize,
     pantSize: req.body.pantSize,
     outsidePC: req.body.outsidePC,
@@ -76,7 +78,7 @@ exports.create = (req, res) => {
     expectedGradDate: req.body.expectedGradDate,
     activePlayer: req.body.activePlayer,
     dateSignedAgreement: req.body.dateSignedAgreement,
-    role: req.body.role,
+    role: "user",
     // refresh_token: req.body.refresh_token,
     // expiration_date: req.body.expiration_date
   };
@@ -96,17 +98,63 @@ exports.create = (req, res) => {
 // Retrieve all People from the database.
 exports.findAll = (req, res) => {
   const id = req.query.id;
-  var condition = id ? { id: { [Op.like]: `%${id}%` } } : null;
+  const email = req.query.email;
+  const filter = req.query.filter;
+  const offset = req.query.pageSize * (req.query.page - 1) || 0;
+  const limit = Number(req.query.pageSize) || 10000000;
 
-  User.findAll({ where: condition })
-    .then((data) => {
-      res.send(data);
+  if (filter == undefined || filter == "" || filter == null) {
+    var condition = id
+      ? { id: { [Op.like]: `%${id}%` } }
+      : email
+      ? { email: { [Op.like]: `%${email}%` } }
+      : null;
+    User.findAndCountAll({
+      where: condition,
+      offset: offset,
+      limit: limit,
     })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while retrieving people.",
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while retrieving users.",
+        });
       });
-    });
+  } else {
+    var condition = {
+      [Op.or]: [
+        { id: { [Op.like]: "%" + filter + "%" } },
+        { fName: { [Op.like]: "%" + filter + "%" } },
+        { lName: { [Op.like]: "%" + filter + "%" } },
+      ],
+    };
+    User.findAndCountAll({
+      where: {
+        [Op.or]: {
+          id: { [Op.like]: "%" + filter + "%" },
+          fName: { [Op.like]: "%" + filter + "%" },
+          lName: { [Op.like]: "%" + filter + "%" },
+        },
+      },
+      offset: offset,
+      limit: limit,
+    })
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while retrieving users.",
+        });
+      });
+  }
+};
+
+exports.findFor = (req, res) => {
+  const filter = req.query.filter;
+  const offset = req.query.pageSize * req.query.page;
 };
 
 // Find a single User with an id
@@ -159,6 +207,11 @@ exports.findByEmail = (req, res) => {
 // Update a User by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
+
+  /* If the request conatains a field for role, remove it to prevent access control violation */
+  if (req.body.role != null) {
+    delete req.body.role;
+  }
 
   User.update(req.body, {
     where: { id: id },
@@ -221,4 +274,9 @@ exports.deleteAll = (req, res) => {
           err.message || "Some error occurred while removing all people.",
       });
     });
+};
+
+// Delete all People from the database.
+exports.getClassifications = (req, res) => {
+  res.send(User.getAttributes().classification.values);
 };

@@ -7,11 +7,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     fName: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     lName: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     phoneNumber: {
       type: Sequelize.STRING,
@@ -19,7 +17,13 @@ module.exports = (sequelize, Sequelize) => {
     email: {
       type: Sequelize.STRING,
     },
-    address: {
+    city: {
+      type: Sequelize.STRING,
+    },
+    state: {
+      type: Sequelize.STRING,
+    },
+    country: {
       type: Sequelize.STRING,
     },
     shirtSize: {
@@ -27,7 +31,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     pantSize: {
       type: Sequelize.STRING,
-     },
+    },
     outsidePC: {
       type: Sequelize.BOOLEAN,
     },
@@ -35,7 +39,13 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.BOOLEAN,
     },
     classification: {
-      type: Sequelize.STRING,
+      type: Sequelize.ENUM(
+        "Freshman",
+        "Sophmore",
+        "Junior",
+        "Senior",
+        "Graduate"
+      ),
     },
     expectedGradDate: {
       type: Sequelize.DATE,
@@ -50,6 +60,11 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
       defaultValue: "User",
+    },
+    accountUpToDate: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
     // refresh_token: {
     //   type: Sequelize.STRING(512),

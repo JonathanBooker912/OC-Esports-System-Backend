@@ -1,17 +1,17 @@
 module.exports = (sequelize, Sequelize) => {
-    const Alias = sequelize.define("alias", {
+  const Alias = sequelize.define("alias", {
     id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    title: {
-        type: Sequelize.STRING,
+    aliasType: {
+      type: Sequelize.ENUM("Primary", "Alternate"),
     },
     gamerTag: {
-        type: Sequelize.STRING,
-    }
-    });
+      type: Sequelize.STRING,
+    },
+  });
 
-    return Alias;
+  return Alias;
 };
