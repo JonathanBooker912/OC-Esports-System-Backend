@@ -18,11 +18,11 @@ db.user = require("./user.model.js")(sequelize, Sequelize);
 db.session = require("./session.model.js")(sequelize, Sequelize);
 db.title = require("./title.model.js")(sequelize, Sequelize);
 db.alias = require("./alias.model.js")(sequelize, Sequelize);
+db.team = require("./team.model.js")(sequelize, Sequelize);
 db.emergencyContact = require("./emergencyContact.model.js")(
   sequelize,
   Sequelize
 );
-
 
 // foreign key for session
 db.user.hasMany(
@@ -60,12 +60,18 @@ db.alias.belongsTo(
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
 );
 
-// Foreign key for title in alias
-db.title.hasMany(
+// Foreign key for team in alias
+db.team.hasMany(
   db.alias,
   { as: "alias" },
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
+);
 
+// Foreign key for title in team
+db.title.hasMany(
+  db.team,
+  { as: "title" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
 );
 
 module.exports = db;

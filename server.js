@@ -38,6 +38,7 @@ require("./app/routes/auth.routes.js")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/title.routes")(app);
 require("./app/routes/alias.routes.js")(app);
+require("./app/routes/team.routes")(app);
 require("./app/routes/emergencyContact.routes.js")(app);
 
 // set port, listen for requests
