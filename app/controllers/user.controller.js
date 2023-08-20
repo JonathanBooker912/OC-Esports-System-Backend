@@ -10,55 +10,7 @@ exports.create = (req, res) => {
       message: "Email can not be empty!",
     });
     return;
-  } //else if (!req.body.lName) {
-  //   res.status(400).send({
-  //     message: "Last name can not be empty!",
-  //   });
-  // } else if (!req.body.phoneNumber) {
-  //   res.status(400).send({
-  //     message: "Phone number can not be empty!",
-  //   });
-  // } else if (!req.body.email) {
-  //   res.status(400).send({
-  //     message: "Email can not be empty!",
-  //   });
-  // } else if (!req.body.address) {
-  //   res.status(400).send({
-  //     message: "Address can not be empty!",
-  //   });
-  // } /*else if (!req.body.shirtSize) {
-  //   res.status(400).send({
-  //     message: "Shirt size can not be empty!",
-  //   })
-  // } else if (!req.body.pantSize) {
-  //   res.status(400).send({
-  //     message: "Pant size can not be empty!",
-  //   })
-  // }else if (!req.body.outsidePC) {
-  //   res.status(400).send({
-  //     message: "Outside PC can not be empty!",
-  //   })
-  // }else if (!req.body.fullVacc) {
-  //   res.status(400).send({
-  //     message: "Full Vacc can not be empty!",
-  //   })
-  // }else if (!req.body.classification) {
-  //   res.status(400).send({
-  //     message: "Classification can not be empty!",
-  //   })
-  // }else if (!req.body.expectedGradDate) {
-  //   res.status(400).send({
-  //     message: "Expected grad date can not be empty!",
-  //   })
-  // }else if (!req.body.activePlayer) {
-  //   res.status(400).send({
-  //     message: "Active player can not be empty!",
-  //   })
-  // }else if (!req.body.role) {
-  //   res.status(400).send({
-  //     message: "Role can not be empty!",
-  //   })
-  // }*/
+  }
 
   // Create a User
   const user = {
@@ -128,16 +80,11 @@ exports.findAll = (req, res) => {
         { id: { [Op.like]: "%" + filter + "%" } },
         { fName: { [Op.like]: "%" + filter + "%" } },
         { lName: { [Op.like]: "%" + filter + "%" } },
+        { email: { [Op.like]: "%" + filter + "%" } }
       ],
     };
     User.findAndCountAll({
-      where: {
-        [Op.or]: {
-          id: { [Op.like]: "%" + filter + "%" },
-          fName: { [Op.like]: "%" + filter + "%" },
-          lName: { [Op.like]: "%" + filter + "%" },
-        },
-      },
+      where: condition,
       offset: offset,
       limit: limit,
     })
