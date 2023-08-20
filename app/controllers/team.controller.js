@@ -77,12 +77,34 @@ exports.delete = (req, res) => {
       if (num === 1) {
         res.send({ message: "Team was deleted successfully." });
       } else {
-        res.send({ message: "Team not found or unable to delete." });
+        res
+          .status(404)
+          .send({ message: "Team not found or unable to delete." });
       }
     })
     .catch((err) => {
       res.status(500).send({
         message: "Could not delete Team with id=" + teamId,
+      });
+    });
+};
+
+exports.findOne = (req, res) => {
+  const id = req.params.id;
+
+  Team.findByPk(id)
+    .then((data) => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find Team with id=${id}.`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error retrieving Team with id=" + id,
       });
     });
 };

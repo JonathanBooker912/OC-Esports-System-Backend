@@ -10,7 +10,11 @@ module.exports = (app) => {
 
   router.delete("/:id", teams.delete);
 
+  // Get all teams
   router.get("/", teams.findAll);
+
+  // Get one team
+  router.get("/:id", teams.findOne);
 
   app.use("/EsportsAPI/teams", router);
 };
