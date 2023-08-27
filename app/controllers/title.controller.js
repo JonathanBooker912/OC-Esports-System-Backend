@@ -1,7 +1,10 @@
-const db = require("../models");
+import db from "../models/index.js"
+
 const Title = db.title;
-const Op = db.Sequelize.Op;
-// Create and Save a new Tutorial
+
+const exports = {}
+
+// Create and Save a new Title
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.name) {
@@ -10,7 +13,7 @@ exports.create = (req, res) => {
     });
     return;
   }
-  // Create a Tutorial
+  // Create a Title
   const title = {
     name: req.body.name,
   };
@@ -40,4 +43,4 @@ exports.findAll = (req, res) => {
     });
 };
 
-/* TODO: Add Update and Get Routes */
+export default exports;

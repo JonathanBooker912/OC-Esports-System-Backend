@@ -1,5 +1,7 @@
-module.exports = (sequelize, Sequelize) => {
-  const EmergencyContact = sequelize.define("emergencyContact", {
+import Sequelize from "sequelize";
+import SequelizeInstance from "../sequelizeUtils/sequelizeInstance.js";
+
+const EmergencyContact = SequelizeInstance.define("emergencyContact", {
     id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
@@ -25,7 +27,6 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
-  });
+});
 
-  return EmergencyContact;
-};
+export default EmergencyContact;

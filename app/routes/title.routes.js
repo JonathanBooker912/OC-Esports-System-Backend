@@ -1,12 +1,12 @@
-module.exports = (app) => {
-  const titles = require("../controllers/title.controller.js");
-  const { authenticate } = require("../authorization/authorization.js");
-  var router = require("express").Router();
+import titles from "../controllers/title.controller.js"
+import { authenticate } from "../authorization/authorization.js"
+import { Router } from "express"
 
-  // Create a new Tutorial
-  router.post("/", titles.create);
+const router = Router();
 
-  router.get("/", titles.findAll);
+// Create a new Tutorial
+router.post("/", [authenticate], titles.create);
 
-  app.use("/EsportsAPI/titles", router);
-};
+router.get("/", [authenticate], titles.findAll);
+
+export default router;

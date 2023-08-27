@@ -1,6 +1,9 @@
-const db = require("../models");
+import db from "../models/index.js"
+
 const Alias = db.alias;
 const Op = db.Sequelize.Op;
+
+const exports = {};
 
 exports.create = (req, res) => {
   //Validate request
@@ -53,7 +56,7 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   const id = req.query.id;
   const type = req.query.type;
-  
+
   var condition = id
     ? { id: { [Op.like]: `%${id}%` } }
     : type
@@ -84,7 +87,7 @@ exports.findOne = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Error retrieving Alias with id=" + id,
       });
@@ -116,7 +119,7 @@ exports.update = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "There was an error while updating Alias with id=" + id,
       });
@@ -140,7 +143,7 @@ exports.deleteOne = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Could not delete Alias with id=" + id,
       });
@@ -152,7 +155,7 @@ exports.deleteAll = (req, res) => {
     where: {},
     truncate: false,
   })
-    .then((nums) => {
+    .then(() => {
       res.send({ message: "${nums} Aliases were deleted successfully!" });
     })
     .catch((err) => {
@@ -161,3 +164,5 @@ exports.deleteAll = (req, res) => {
       });
     });
 };
+
+export default exports;

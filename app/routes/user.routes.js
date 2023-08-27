@@ -1,28 +1,28 @@
-module.exports = (app) => {
-  const user = require("../controllers/user.controller.js");
-  const { authenticate } = require("../authorization/authorization.js");
-  var router = require("express").Router();
+import user from "../controllers/user.controller.js"
+import { authenticate } from "../authorization/authorization.js"
+import { Router } from "express"
 
-  // Create a new User
-  router.post("/", [authenticate], user.create);
+const router = Router();
 
-  // Retrieve all People
-  router.get("/", user.findAll);
+// Create a new User
+router.post("/", [authenticate], user.create);
 
-  // Retrieve all classifications
-  router.get("/classifications", [authenticate], user.getClassifications);
+// Retrieve all People
+router.get("/", user.findAll);
 
-  // Retrieve a single User with id
-  router.get("/:id", [authenticate], user.findOne);
+// Retrieve all classifications
+router.get("/classifications", [authenticate], user.getClassifications);
 
-  // Update a User with id
-  router.put("/:id", [authenticate], user.update);
+// Retrieve a single User with id
+router.get("/:id", [authenticate], user.findOne);
 
-  // Delete a User with id
-  router.delete("/:id", [authenticate], user.delete);
+// Update a User with id
+router.put("/:id", [authenticate], user.update);
 
-  // Delete all User
-  router.delete("/", [authenticate], user.deleteAll);
+// Delete a User with id
+router.delete("/:id", [authenticate], user.delete);
 
-  app.use("/EsportsAPI/user", router);
-};
+// Delete all User
+router.delete("/", [authenticate], user.deleteAll);
+
+export default router;
