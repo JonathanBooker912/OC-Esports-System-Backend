@@ -36,7 +36,7 @@ exports.createUserRole = async (userRoleData) => {
 };
 
 exports.findOneUserRole = async (id) => {
-  return await PersonRole.findByPk(id);
+  return await UserRole.findByPk(id);
 };
 
 exports.findAllUserRoles = async () => {
