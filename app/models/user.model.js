@@ -56,11 +56,6 @@ module.exports = (sequelize, Sequelize) => {
     dateSignedAgreement: {
       type: Sequelize.DATE,
     },
-    role: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      defaultValue: "User",
-    },
     accountUpToDate: {
       type: Sequelize.BOOLEAN,
       allowNull: false,

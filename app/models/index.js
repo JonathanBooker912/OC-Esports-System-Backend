@@ -23,6 +23,8 @@ db.emergencyContact = require("./emergencyContact.model.js")(
   sequelize,
   Sequelize
 );
+db.role = require("./role.model.js")(sequelize, Sequelize);
+db.userRole = require("./userrole.model.js")(sequelize, Sequelize);
 
 // foreign key for session
 db.user.hasMany(
@@ -73,5 +75,30 @@ db.title.hasMany(
   { as: "title" },
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
 );
+
+// Foreign key for user in user role
+db.user.hasMany(
+  db.userRole,
+  { as: "userRole" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE"}
+)
+db.userRole.belongsTo(
+  db.user,
+  { as:"user"},
+  { foreignKey: {allowNull: false}, onDelete: "CASCADE"}
+)
+
+// Foreign key for role in user role
+db.role.hasMany(
+  db.userRole,
+  { as: "userRole" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
+)
+
+db.userRole.belongsTo(
+  db.role,
+  { as:"role"},
+  { foreignKey: {allowNull: false}, onDelete: "CASCADE"}
+)
 
 module.exports = db;
