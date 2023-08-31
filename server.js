@@ -40,6 +40,8 @@ require("./app/routes/title.routes")(app);
 require("./app/routes/alias.routes.js")(app);
 require("./app/routes/team.routes")(app);
 require("./app/routes/emergencyContact.routes.js")(app);
+require("./app/routes/role.routes.js")(app);
+require("./app/routes/userrole.routes.js")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3100;
