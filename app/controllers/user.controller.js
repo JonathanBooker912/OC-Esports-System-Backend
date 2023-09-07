@@ -33,7 +33,6 @@ exports.create = (req, res) => {
     expectedGradDate: req.body.expectedGradDate,
     activePlayer: req.body.activePlayer,
     dateSignedAgreement: req.body.dateSignedAgreement,
-    role: "user",
     // refresh_token: req.body.refresh_token,
     // expiration_date: req.body.expiration_date
   };
@@ -152,11 +151,6 @@ exports.findByEmail = (req, res) => {
 // Update a User by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-
-  /* If the request conatains a field for role, remove it to prevent access control violation */
-  if (req.body.role != null) {
-    delete req.body.role;
-  }
 
   User.update(req.body, {
     where: { id: id },
