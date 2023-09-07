@@ -1,4 +1,4 @@
-import db from "../models/index.js"
+import db from "../models/index.js";
 
 const Team = db.team;
 const Op = db.Sequelize.Op;

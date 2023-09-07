@@ -16,4 +16,3 @@ const Alias = SequelizeInstance.define("alias", {
 });
 
 export default Alias;
-

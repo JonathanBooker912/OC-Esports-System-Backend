@@ -8,7 +8,9 @@
     "test": "jest --",
     "start": "node server.js",
     "start-alter": "node server.js alter",
-    "bundle": "mkdir deploy && cp -r app server.js package.json package-lock.json tutorial-backend.service .env deploy"
+    "bundle": "mkdir deploy && cp -r app server.js package.json package-lock.json tutorial-backend.service .env deploy",
+    "format:check": "prettier . --check",
+    "format:write": "prettier . --write"
   },
   "keywords": [
     "node.js",
@@ -34,6 +36,6 @@
     "@babel/preset-env": "^7.22.10",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
-    "prettier": "3.0.2"
+    "prettier": "^3.0.3"
   }
 }

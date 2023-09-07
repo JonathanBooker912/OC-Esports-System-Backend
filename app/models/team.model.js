@@ -18,5 +18,3 @@ const Team = SequelizeInstance.define("team", {
 });
 
 export default Team;
-
-

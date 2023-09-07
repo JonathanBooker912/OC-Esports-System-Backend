@@ -63,6 +63,6 @@ const User = SequelizeInstance.define("user", {
     allowNull: false,
     defaultValue: false,
   },
-})
+});
 
 export default User;

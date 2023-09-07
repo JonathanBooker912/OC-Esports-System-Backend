@@ -1,14 +1,13 @@
-import db from "../models/index.js"
-import authconfig from "../config/auth.config.js"
-import jwt from "jsonwebtoken"
-import { OAuth2Client } from "google-auth-library"
+import db from "../models/index.js";
+import authconfig from "../config/auth.config.js";
+import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
 
 const User = db.user;
 const Session = db.session;
 const Op = db.Sequelize.Op;
 
-import { google } from "googleapis"
-
+import { google } from "googleapis";
 
 let googleUser = {};
 
@@ -21,7 +20,7 @@ exports.login = async (req, res) => {
 
   var googleToken = req.body.credential;
   console.log("Made it to here");
- 
+
   const client = new OAuth2Client(google_id);
   async function verify() {
     const ticket = await client.verifyIdToken({
@@ -84,7 +83,7 @@ exports.login = async (req, res) => {
       res.status(500).send({ message: err.message });
     });
 
-    // this lets us get the user id
+  // this lets us get the user id
   if (user.id === undefined) {
     console.log("need to get user's id");
     console.log(user);
@@ -339,25 +338,24 @@ exports.validateToken = async (req, res) => {
     });
     return;
   }
-  
+
   // Check if the token exists in the session table
   let session = {};
-  
+
   await Session.findOne({ where: { token: req.body.token } })
-  .then((data) => {
-    if (data !== null) {
-      session = data.dataValues;
-      if (session.expirationDate > Date.now()){
-        res.status(200).send({
-          message: "Valid token.",
-          isValid: true,
-        })
-        }
-        else {
+    .then((data) => {
+      if (data !== null) {
+        session = data.dataValues;
+        if (session.expirationDate > Date.now()) {
+          res.status(200).send({
+            message: "Valid token.",
+            isValid: true,
+          });
+        } else {
           res.status(401).send({
-            message:"Token has expired.",
+            message: "Token has expired.",
             isValid: false,
-          })
+          });
         }
       } else {
         res.status(401).send({
@@ -372,6 +370,6 @@ exports.validateToken = async (req, res) => {
         isValid: false,
       });
     });
-  };
-  
+};
+
 export default exports;

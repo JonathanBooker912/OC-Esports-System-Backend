@@ -1,6 +1,6 @@
-import alias from "../controllers/alias.controller.js"
-import { authenticate } from "../authorization/authorization.js"
-import { Router } from "express"
+import alias from "../controllers/alias.controller.js";
+import { authenticate } from "../authorization/authorization.js";
+import { Router } from "express";
 
 const router = Router();
 
@@ -21,6 +21,5 @@ router.delete("/:userId/alias/:id", [authenticate], alias.deleteOne);
 
 //Delete all aliases for one user
 router.delete("/:userId/alias", [authenticate], alias.deleteAll);
-
 
 export default router;

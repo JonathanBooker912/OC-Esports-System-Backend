@@ -1,6 +1,6 @@
-import user from "../controllers/user.controller.js"
-import { authenticate } from "../authorization/authorization.js"
-import { Router } from "express"
+import user from "../controllers/user.controller.js";
+import { authenticate } from "../authorization/authorization.js";
+import { Router } from "express";
 
 const router = Router();
 

@@ -1,4 +1,6 @@
-const Role = require("../sequelizeUtils/role.js");
+import Role from "../sequelizeUtils/role.js";
+
+const exports = {};
 
 exports.create = async (req, res) => {
   await Role.createRole(req.body)
@@ -84,3 +86,5 @@ exports.delete = async (req, res) => {
       console.log("Could not delete role: " + err);
     });
 };
+
+export default exports;

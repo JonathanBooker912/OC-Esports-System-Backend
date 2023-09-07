@@ -1,13 +1,13 @@
-import { Sequelize } from "sequelize"
+import { Sequelize } from "sequelize";
 
-import user from "./user.model.js"
-import session from "./session.model.js"
-import title from "./title.model.js"
-import alias from "./alias.model.js"
-import team from "./team.model.js"
-import emergencyContact from "./emergencyContact.model.js"
-import role from "./role.model.js"
-import userRole from "./userrole.model.js"
+import user from "./user.model.js";
+import session from "./session.model.js";
+import title from "./title.model.js";
+import alias from "./alias.model.js";
+import team from "./team.model.js";
+import emergencyContact from "./emergencyContact.model.js";
+import role from "./role.model.js";
+import userRole from "./userrole.model.js";
 
 const db = {};
 
@@ -76,69 +76,25 @@ db.title.hasMany(
 db.user.hasMany(
   db.userRole,
   { as: "userRole" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE"}
-)
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
+);
 db.userRole.belongsTo(
   db.user,
-  { as:"user"},
-  { foreignKey: {allowNull: false}, onDelete: "CASCADE"}
-)
-
-// Foreign key for role in user role
-db.role.hasMany(
-  db.userRole,
-  { as: "userRole" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
+  { as: "user" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
 );
 
-// Foreign key for user in user role
-db.user.hasMany(
-  db.userRole,
-  { as: "userRole" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE"}
-)
-db.userRole.belongsTo(
-  db.user,
-  { as:"user"},
-  { foreignKey: {allowNull: false}, onDelete: "CASCADE"}
-)
-
 // Foreign key for role in user role
 db.role.hasMany(
   db.userRole,
   { as: "userRole" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
-)
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
+);
 
 db.userRole.belongsTo(
   db.role,
-  { as:"role"},
-  { foreignKey: {allowNull: false}, onDelete: "CASCADE"}
-)
-
-// Foreign key for user in user role
-db.user.hasMany(
-  db.userRole,
-  { as: "userRole" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE"}
-)
-db.userRole.belongsTo(
-  db.user,
-  { as:"user"},
-  { foreignKey: {allowNull: false}, onDelete: "CASCADE"}
-)
-
-// Foreign key for role in user role
-db.role.hasMany(
-  db.userRole,
-  { as: "userRole" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
-)
-
-db.userRole.belongsTo(
-  db.role,
-  { as:"role"},
-  { foreignKey: {allowNull: false}, onDelete: "CASCADE"}
-)
+  { as: "role" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
+);
 
 export default db;

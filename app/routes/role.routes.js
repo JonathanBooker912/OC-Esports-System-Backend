@@ -1,6 +1,6 @@
-import role from "../controllers/role.controller.js"
-import { authenticate, isAdmin } from "../authorization/authorization.js"
-import { Router } from "express"
+import role from "../controllers/role.controller.js";
+import { authenticate, isAdmin } from "../authorization/authorization.js";
+import { Router } from "express";
 
 const router = Router();
 

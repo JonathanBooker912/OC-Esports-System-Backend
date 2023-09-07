@@ -1,8 +1,8 @@
-import db from "../models/index.js"
+import db from "../models/index.js";
 
 const Title = db.title;
 
-const exports = {}
+const exports = {};
 
 // Create and Save a new Title
 exports.create = (req, res) => {

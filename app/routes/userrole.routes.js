@@ -1,9 +1,9 @@
-import userrole from "../controllers/userrole.controller.js"
-import { authenticate, isAdmin } from "../authorization/authorization.js"
-import { Router } from "express"
+import userrole from "../controllers/userrole.controller.js";
+import { authenticate, isAdmin } from "../authorization/authorization.js";
+import { Router } from "express";
 
 const router = Router();
-  
+
 // Create a new PersonRole
 router.post("/", [authenticate, isAdmin], userrole.create);
 
@@ -18,5 +18,5 @@ router.put("/:id", [authenticate, isAdmin], userrole.update);
 
 // Delete a PersonRole with id
 router.delete("/:id", [authenticate, isAdmin], userrole.delete);
-  
+
 export default router;

@@ -1,4 +1,4 @@
-import db from "../models/index.js"
+import db from "../models/index.js";
 
 const Alias = db.alias;
 const Op = db.Sequelize.Op;

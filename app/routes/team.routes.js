@@ -1,6 +1,6 @@
-import teams from "../controllers/team.controller.js"
-import { authenticate } from "../authorization/authorization.js"
-import { Router } from "express"
+import teams from "../controllers/team.controller.js";
+import { authenticate } from "../authorization/authorization.js";
+import { Router } from "express";
 
 const router = Router();
 

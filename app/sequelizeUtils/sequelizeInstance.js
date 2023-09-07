@@ -1,7 +1,11 @@
 import dbConfig from "../config/db.config.js";
 import Sequelize from "sequelize";
 
-const SequelizeConfig = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+const SequelizeConfig = new Sequelize(
+  dbConfig.DB,
+  dbConfig.USER,
+  dbConfig.PASSWORD,
+  {
     host: dbConfig.HOST,
     dialect: dbConfig.dialect,
     pool: {
@@ -10,6 +14,7 @@ const SequelizeConfig = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSW
       acquire: dbConfig.pool.acquire,
       idle: dbConfig.pool.idle,
     },
-  });
+  },
+);
 
-export default SequelizeConfig
+export default SequelizeConfig;

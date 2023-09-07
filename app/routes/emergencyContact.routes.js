@@ -1,6 +1,6 @@
-import emergencyContact from "../controllers/emergencyContact.controller.js"
-import { authenticate } from "../authorization/authorization.js"
-import { Router } from "express"
+import emergencyContact from "../controllers/emergencyContact.controller.js";
+import { authenticate } from "../authorization/authorization.js";
+import { Router } from "express";
 
 const router = Router();
 

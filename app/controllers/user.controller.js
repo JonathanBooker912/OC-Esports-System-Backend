@@ -1,9 +1,9 @@
-import db from "../models/index.js"
+import db from "../models/index.js";
 
 const User = db.user;
 const Op = db.Sequelize.Op;
 
-const exports = {}
+const exports = {};
 
 // Create and Save a new User
 exports.create = (req, res) => {
