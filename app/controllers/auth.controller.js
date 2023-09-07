@@ -84,7 +84,7 @@ exports.login = async (req, res) => {
       res.status(500).send({ message: err.message });
     });
 
-  // this lets us get the user id
+    // this lets us get the user id
   if (user.id === undefined) {
     console.log("need to get user's id");
     console.log(user);

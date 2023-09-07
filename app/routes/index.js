@@ -8,11 +8,12 @@ import EmergencyContactRoutes from "./emergencyContact.routes.js";
 
 const router = Router()
 
-router.use("/EsportsAPI/user", AliasRoutes);
-router.use("/EsportsAPI", AuthRoutes);
-router.use("/EsportsAPI/user", UserRoutes);
-router.use("/EsportsAPI/titles", TitleRoutes);
-router.use("/EsportsAPI/teams", TeamRoutes);
-router.use("/EsportsAPI/user", EmergencyContactRoutes);
+router.use("/user", UserRoutes);
+router.use("/user", AliasRoutes);
+router.use("/user", EmergencyContactRoutes);
+
+router.use("/", AuthRoutes);
+router.use("/titles", TitleRoutes);
+router.use("/teams", TeamRoutes);
 
 export default router;

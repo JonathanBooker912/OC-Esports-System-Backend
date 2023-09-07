@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
 
-app.use("/", routes) // Load the routes from the routes folder
+app.use("/EsportsAPI", routes) // Load the routes from the routes folder
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3100;
