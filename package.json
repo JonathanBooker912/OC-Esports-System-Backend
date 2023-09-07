@@ -9,6 +9,8 @@
     "start": "node server.js",
     "start-alter": "node server.js alter",
     "bundle": "mkdir deploy && cp -r app server.js package.json package-lock.json tutorial-backend.service .env deploy",
+    "lint": "eslint --ext .js app",
+    "lint:fix": "eslint --fix --ext .js app",
     "format:check": "prettier . --check",
     "format:write": "prettier . --write"
   },

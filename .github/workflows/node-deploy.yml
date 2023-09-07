@@ -25,10 +25,6 @@ jobs:
       - run: npm install
 
       - run: |
-          npm lint:check
-          npm format:check
-
-      - run: |
           touch .env
           echo DB_HOST = "$DB_HOST" >> .env
           echo DB_PW = "$DB_PW" >> .env

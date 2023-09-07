@@ -80,7 +80,7 @@ exports.delete = async (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Could not delete user role with id = " + req.params.id,
       });

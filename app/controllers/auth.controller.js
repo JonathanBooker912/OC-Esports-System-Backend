@@ -364,7 +364,7 @@ exports.validateToken = async (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Error occurred while retrieving session.",
         isValid: false,
