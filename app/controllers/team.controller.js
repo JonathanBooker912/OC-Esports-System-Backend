@@ -1,6 +1,9 @@
-const db = require("../models");
+import db from "../models/index.js";
+
 const Team = db.team;
 const Op = db.Sequelize.Op;
+
+const exports = {};
 
 // Create a new team
 exports.create = (req, res) => {
@@ -61,7 +64,7 @@ exports.update = (req, res) => {
         res.send({ message: "Team not found or unable to update." });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Error updating Team with id=" + teamId,
       });
@@ -82,7 +85,7 @@ exports.delete = (req, res) => {
           .send({ message: "Team not found or unable to delete." });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Could not delete Team with id=" + teamId,
       });
@@ -102,7 +105,7 @@ exports.findOne = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Error retrieving Team with id=" + id,
       });
@@ -136,7 +139,7 @@ exports.findAll = (req, res) => {
         });
       });
   } else {
-    var condition = {
+    var filterCondition = {
       [Op.or]: [
         { id: { [Op.like]: "%" + filter + "%" } },
         { name: { [Op.like]: "%" + filter + "%" } },
@@ -144,7 +147,7 @@ exports.findAll = (req, res) => {
     };
     Team.findAndCountAll({
       where: {
-        [Op.or]: condition,
+        [Op.or]: filterCondition,
       },
       offset: offset,
       limit: limit,
@@ -159,3 +162,5 @@ exports.findAll = (req, res) => {
       });
   }
 };
+
+export default exports;

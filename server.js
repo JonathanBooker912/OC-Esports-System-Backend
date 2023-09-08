@@ -1,7 +1,8 @@
-require("dotenv").config();
-
-const express = require("express");
-const cors = require("cors");
+import "dotenv/config";
+import express, { json, urlencoded } from "express";
+import SequelizeInstance from "./app/sequelizeUtils/sequelizeInstance.js";
+import routes from "./app/routes/index.js";
+import cors from "cors";
 var alterDB = false;
 
 /* This allows you to run the "alter" command from the command line*/
@@ -13,8 +14,7 @@ if (args[0] === "alter") {
 
 const app = express();
 
-const db = require("./app/models");
-db.sequelize.sync({ alter: alterDB });
+SequelizeInstance.sync({ alter: alterDB });
 
 var corsOptions = {
   origin: "http://localhost:8081",
@@ -24,24 +24,17 @@ app.use(cors(corsOptions));
 app.options("*", cors());
 
 // parse requests of content-type - application/json
-app.use(express.json());
+app.use(json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
+app.use(urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
 
-require("./app/routes/auth.routes.js")(app);
-require("./app/routes/user.routes")(app);
-require("./app/routes/title.routes")(app);
-require("./app/routes/alias.routes.js")(app);
-require("./app/routes/team.routes")(app);
-require("./app/routes/emergencyContact.routes.js")(app);
-require("./app/routes/role.routes.js")(app);
-require("./app/routes/userrole.routes.js")(app);
+app.use("/EsportsAPI", routes); // Load the routes from the routes folder
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3100;
@@ -51,4 +44,4 @@ if (process.env.NODE_ENV !== "test") {
   });
 }
 
-module.exports = app;
+export default app;

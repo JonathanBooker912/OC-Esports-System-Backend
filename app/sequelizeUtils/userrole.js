@@ -1,5 +1,7 @@
-const db = require("../models");
+import db from "../models/index.js";
 const UserRole = db.userRole;
+
+const exports = {};
 
 exports.createUserRole = async (userRoleData) => {
   if (userRoleData.userId === undefined) {
@@ -11,11 +13,11 @@ exports.createUserRole = async (userRoleData) => {
     error.statusCode = 400;
     throw error;
   }
-  
+
   // make sure we don't create a duplicate value
   let existingUserRole = await this.findOneForUserForRole(
     userRoleData.userId,
-    userRoleData.roleId
+    userRoleData.roleId,
   );
   if (existingUserRole[0] !== undefined) {
     return existingUserRole[0].dataValues;
@@ -47,7 +49,7 @@ exports.updateUserRole = async (userrole, id) => {
   return await UserRole.update(userrole, {
     where: { id: id },
   });
-}
+};
 
 exports.deleteUserRole = async (id) => {
   return await UserRole.destroy({
@@ -60,3 +62,5 @@ exports.findOneForUserForRole = async (userId, roleId) => {
     where: { userid: userId, roleId: roleId },
   });
 };
+
+export default exports;

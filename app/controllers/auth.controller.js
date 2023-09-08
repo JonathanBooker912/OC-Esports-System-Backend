@@ -1,23 +1,26 @@
-const db = require("../models");
-const authconfig = require("../config/auth.config");
+import db from "../models/index.js";
+import authconfig from "../config/auth.config.js";
+import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
+
 const User = db.user;
 const Session = db.session;
 const Op = db.Sequelize.Op;
 
-const { google } = require("googleapis");
-
-var jwt = require("jsonwebtoken");
+import { google } from "googleapis";
 
 let googleUser = {};
 
 const google_id = process.env.CLIENT_ID;
+
+const exports = {};
 
 exports.login = async (req, res) => {
   console.log(req.body);
 
   var googleToken = req.body.credential;
   console.log("Made it to here");
-  const { OAuth2Client } = require("google-auth-library");
+
   const client = new OAuth2Client(google_id);
   async function verify() {
     const ticket = await client.verifyIdToken({
@@ -105,7 +108,7 @@ exports.login = async (req, res) => {
           console.log("updated user's name");
         } else {
           console.log(
-            `Cannot update User with id=${user.id}. Maybe User was not found or req.body is empty!`
+            `Cannot update User with id=${user.id}. Maybe User was not found or req.body is empty!`,
           );
         }
       })
@@ -215,7 +218,7 @@ exports.authorize = async (req, res) => {
   const oauth2Client = new google.auth.OAuth2(
     process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,
-    "postmessage"
+    "postmessage",
   );
 
   console.log("authorize token");
@@ -253,7 +256,7 @@ exports.authorize = async (req, res) => {
         console.log("updated user's google token stuff");
       } else {
         console.log(
-          `Cannot update User with id=${user.id}. Maybe User was not found or req.body is empty!`
+          `Cannot update User with id=${user.id}. Maybe User was not found or req.body is empty!`,
         );
       }
       let userInfo = {
@@ -343,17 +346,16 @@ exports.validateToken = async (req, res) => {
     .then((data) => {
       if (data !== null) {
         session = data.dataValues;
-        if (session.expirationDate > Date.now()){
+        if (session.expirationDate > Date.now()) {
           res.status(200).send({
             message: "Valid token.",
             isValid: true,
-          })
-        }
-        else {
+          });
+        } else {
           res.status(401).send({
-            message:"Token has expired.",
+            message: "Token has expired.",
             isValid: false,
-          })
+          });
         }
       } else {
         res.status(401).send({
@@ -362,10 +364,12 @@ exports.validateToken = async (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Error occurred while retrieving session.",
         isValid: false,
       });
     });
 };
+
+export default exports;

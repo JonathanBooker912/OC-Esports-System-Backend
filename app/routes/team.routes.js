@@ -1,20 +1,20 @@
-module.exports = (app) => {
-  const teams = require("../controllers/team.controller.js");
-  const { authenticate } = require("../authorization/authorization.js");
-  var router = require("express").Router();
+import teams from "../controllers/team.controller.js";
+import { authenticate } from "../authorization/authorization.js";
+import { Router } from "express";
 
-  // Create a new Team
-  router.post("/", teams.create);
+const router = Router();
 
-  router.put("/:id", teams.update);
+// Create a new Team
+router.post("/", [authenticate], teams.create);
 
-  router.delete("/:id", teams.delete);
+router.put("/:id", [authenticate], teams.update);
 
-  // Get all teams
-  router.get("/", teams.findAll);
+router.delete("/:id", [authenticate], teams.delete);
 
-  // Get one team
-  router.get("/:id", teams.findOne);
+// Get all teams
+router.get("/", [authenticate], teams.findAll);
 
-  app.use("/EsportsAPI/teams", router);
-};
+// Get one team
+router.get("/:id", [authenticate], teams.findOne);
+
+export default router;

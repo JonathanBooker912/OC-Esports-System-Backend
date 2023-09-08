@@ -1,27 +1,22 @@
-module.exports = (app) => {
-    const role = require("../controllers/role.controller.js");
-    const {
-        authenticate, 
-        isAdmin,
+import role from "../controllers/role.controller.js";
+import { authenticate, isAdmin } from "../authorization/authorization.js";
+import { Router } from "express";
 
-    } = require("../authorization/authorization.js");
+const router = Router();
 
-    var router = require("express").Router();
+// Create a new Role
+router.post("/", [authenticate, isAdmin], role.create);
 
-    // Create a new Role
-    router.post("/", [authenticate, isAdmin], role.create);
+// Retrieve all Role
+router.get("/", [authenticate, isAdmin], role.findAll);
 
-    // Retrieve all Role
-    router.get("/", [authenticate, isAdmin], role.findAll);
+// Retrieve a single Role with id
+router.get("/:id", [authenticate], role.findOne);
 
-    // Retrieve a single Role with id
-    router.get("/:id", [authenticate], role.findOne);
+// Update a Role with id
+router.put("/:id", [authenticate, isAdmin], role.update);
 
-    // Update a Role with id
-    router.put("/:id", [authenticate, isAdmin], role.update);
+// Delete a Role with id
+router.delete("/:id", [authenticate, isAdmin], role.delete);
 
-    // Delete a Role with id
-    router.delete("/:id", [authenticate, isAdmin], role.delete);
-
-    app.use("/EsportsAPI/role", router);
-}
+export default router;

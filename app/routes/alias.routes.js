@@ -1,25 +1,25 @@
-module.exports = (app) => {
-  const alias = require("../controllers/alias.controller.js");
-  const { authenticate } = require("../authorization/authorization.js");
-  var router = require("express").Router();
+import alias from "../controllers/alias.controller.js";
+import { authenticate } from "../authorization/authorization.js";
+import { Router } from "express";
 
-  //Create alias
-  router.post("/:userId/alias", [authenticate], alias.create);
+const router = Router();
 
-  //Find all aliases for a user
-  router.get("/:userId/alias", [authenticate], alias.findAll);
+//Create alias
+router.post("/:userId/alias", [authenticate], alias.create);
 
-  //Find one alias for a user
-  router.get("/:userId/alias/:id", [authenticate], alias.findOne);
+//Find all aliases for a user
+router.get("/:userId/alias", [authenticate], alias.findAll);
 
-  //Update alias
-  router.put("/:userId/alias/:id", [authenticate], alias.update);
+//Find one alias for a user
+router.get("/:userId/alias/:id", [authenticate], alias.findOne);
 
-  //Delete one alias
-  router.delete("/:userId/alias/:id", [authenticate], alias.deleteOne);
+//Update alias
+router.put("/:userId/alias/:id", [authenticate], alias.update);
 
-  //Delete all aliases for one user
-  router.delete("/:userId/alias", [authenticate], alias.deleteAll);
+//Delete one alias
+router.delete("/:userId/alias/:id", [authenticate], alias.deleteOne);
 
-  app.use("/EsportsAPI/user", router);
-};
+//Delete all aliases for one user
+router.delete("/:userId/alias", [authenticate], alias.deleteAll);
+
+export default router;

@@ -1,6 +1,9 @@
-const db = require("../models");
+import db from "../models/index.js";
+
 const User = db.user;
 const Op = db.Sequelize.Op;
+
+const exports = {};
 
 // Create and Save a new User
 exports.create = (req, res) => {
@@ -74,16 +77,16 @@ exports.findAll = (req, res) => {
         });
       });
   } else {
-    var condition = {
+    var filterCondition = {
       [Op.or]: [
         { id: { [Op.like]: "%" + filter + "%" } },
         { fName: { [Op.like]: "%" + filter + "%" } },
         { lName: { [Op.like]: "%" + filter + "%" } },
-        { email: { [Op.like]: "%" + filter + "%" } }
+        { email: { [Op.like]: "%" + filter + "%" } },
       ],
     };
     User.findAndCountAll({
-      where: condition,
+      where: filterCondition,
       offset: offset,
       limit: limit,
     })
@@ -96,11 +99,6 @@ exports.findAll = (req, res) => {
         });
       });
   }
-};
-
-exports.findFor = (req, res) => {
-  const filter = req.query.filter;
-  const offset = req.query.pageSize * req.query.page;
 };
 
 // Find a single User with an id
@@ -117,7 +115,7 @@ exports.findOne = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Error retrieving User with id=" + id,
       });
@@ -143,7 +141,7 @@ exports.findByEmail = (req, res) => {
         });*/
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Error retrieving User with email=" + email,
       });
@@ -168,7 +166,7 @@ exports.update = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Error updating User with id=" + id,
       });
@@ -193,7 +191,7 @@ exports.delete = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Could not delete User with id=" + id,
       });
@@ -221,3 +219,5 @@ exports.deleteAll = (req, res) => {
 exports.getClassifications = (req, res) => {
   res.send(User.getAttributes().classification.values);
 };
+
+export default exports;
