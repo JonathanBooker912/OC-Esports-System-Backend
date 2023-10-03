@@ -1,6 +1,8 @@
-const db = require("../models");
+import db from "../models/index.js";
+
 const EmergencyContact = db.emergencyContact;
-const Op = db.Sequelize.Op;
+
+const exports = {};
 
 exports.create = (req, res) => {
   // Validate request
@@ -148,7 +150,7 @@ exports.deleteAll = (req, res) => {
   })
     .then((nums) => {
       res.send({
-        message: "${nums} Emergency Contacts were deleted successfully.",
+        message: `${nums} Emergency Contacts were deleted successfully.`,
       });
     })
     .catch((err) => {
@@ -159,3 +161,5 @@ exports.deleteAll = (req, res) => {
       });
     });
 };
+
+export default exports;

@@ -1,6 +1,9 @@
-const db = require("../models");
-const Team = require("../sequelizeUtils/team.js");
+import db from "../models/index.js";
+
+const Team = db.team;
 const Op = db.Sequelize.Op;
+
+const exports = {};
 
 // Create a new team
 exports.create = async (req, res) => {
@@ -67,7 +70,7 @@ exports.findOne = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: err.message || "Something went wrong deleting team with id of " + id,
       });
@@ -104,4 +107,6 @@ exports.findAll = async (req, res) => {
           message: err.message || "Some error occurred while retrieving teams.",
         });
       });
-};
+  };
+
+export default exports;

@@ -1,9 +1,9 @@
-const db = require("../models");
+import db from "../models/index.js";
 const Session = db.session;
 const UserRole = db.userRole;
 const Role = db.role;
 
-authenticate = (req, res, next) => {
+export const authenticate = (req, res, next) => {
   let token = null;
   console.log("authenticate");
   let authHeader = req.get("authorization");
@@ -33,7 +33,7 @@ authenticate = (req, res, next) => {
   }
 };
 
-isAdmin = async (req, res, next) => {
+export const isAdmin = async (req, res, next) => {
   let authHeader = req.get("authorization");
   let token = "";
   let roles = [];
@@ -47,7 +47,7 @@ isAdmin = async (req, res, next) => {
       });
   }
 
-  await Session.findAll({where: {token: token } })
+  await Session.findAll({ where: { token: token } })
     .then(async (data) => {
       let session = data[0];
       if (session.userId != null) {
@@ -97,4 +97,4 @@ const auth = {
   isAdmin: isAdmin,
 };
 
-module.exports = auth;
+export default auth;

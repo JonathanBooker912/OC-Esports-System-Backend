@@ -1,15 +1,16 @@
-module.exports = (sequelize, Sequelize) => {
-  const Title = sequelize.define("title", {
-    id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    name: {
-      type: Sequelize.STRING(50),
-      allowNull: false,
-    },
-  });
+import Sequelize from "sequelize";
+import SequelizeInstance from "../sequelizeUtils/sequelizeInstance.js";
 
-  return Title;
-};
+const Title = SequelizeInstance.define("title", {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  name: {
+    type: Sequelize.STRING(50),
+    allowNull: false,
+  },
+});
+
+export default Title;
