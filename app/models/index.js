@@ -25,6 +25,7 @@ db.emergencyContact = require("./emergencyContact.model.js")(
 );
 db.role = require("./role.model.js")(sequelize, Sequelize);
 db.userRole = require("./userrole.model.js")(sequelize, Sequelize);
+db.match = require("./match.model.js")(sequelize, Sequelize);
 
 // foreign key for session
 db.user.hasMany(
@@ -99,6 +100,19 @@ db.userRole.belongsTo(
   db.role,
   { as:"role"},
   { foreignKey: {allowNull: false}, onDelete: "CASCADE"}
+)
+
+
+// Match relationships
+db.team.hasMany(
+  db.match,
+  { as:"match"},
+  { foreignKey: {allowNull: false}, onDelete:"CASCADE"}
+)
+db.match.belongsTo(
+  db.team,
+  { as:"team"},
+  {foreignKey: {allowNull: false}, onDelete:"CASCADE"}
 )
 
 module.exports = db;
