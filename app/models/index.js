@@ -9,6 +9,8 @@ import emergencyContact from "./emergencyContact.model.js";
 import role from "./role.model.js";
 import userRole from "./userrole.model.js";
 
+import metric from "./metric.model.js"
+
 const db = {};
 
 db.user = user;
@@ -19,6 +21,7 @@ db.team = team;
 db.emergencyContact = emergencyContact;
 db.role = role;
 db.userRole = userRole;
+db.metric = metric;
 
 db.Sequelize = Sequelize;
 
@@ -78,6 +81,7 @@ db.user.hasMany(
   { as: "userRole" },
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
 );
+
 db.userRole.belongsTo(
   db.user,
   { as: "user" },
@@ -94,6 +98,13 @@ db.role.hasMany(
 db.userRole.belongsTo(
   db.role,
   { as: "role" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
+);
+
+// FK for title in metric
+db.title.hasMany(
+  db.metric,
+  
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
 );
 

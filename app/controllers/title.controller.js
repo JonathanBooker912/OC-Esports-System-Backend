@@ -29,6 +29,27 @@ exports.create = (req, res) => {
       });
     });
 };
+
+exports.find = (req, res) => {
+  const { id } = req.params;
+
+  Title.findByPk(id, { attributes: ["id", "name"] })
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({
+          message: `Title with id ${id} not found.`,
+        });
+      }
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving the title.",
+      });
+    });
+};
+
 // Retrieve all Titles from the database.
 exports.findAll = (req, res) => {
   Title.findAll({ attributes: ["id", "name"] })
