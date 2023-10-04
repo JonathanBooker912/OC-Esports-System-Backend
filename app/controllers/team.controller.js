@@ -1,6 +1,5 @@
 import db from "../models/index.js";
-
-const Team = db.team;
+import Team from "../sequelizeUtils/team.js"
 const Op = db.Sequelize.Op;
 
 const exports = {};

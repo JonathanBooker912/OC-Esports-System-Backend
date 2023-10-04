@@ -1,9 +1,8 @@
-const auth = require("../authorization/authorization.js");
+import match from "../controllers/match.controller.js";
+import { authenticate, isAdmin } from "../authorization/authorization.js";
+import { Router } from "express";
 
-module.exports = (app) => {
-  const match = require("../controllers/match.controller.js");
-  const { authenticate, isAdmin } = require("../authorization/authorization.js");
-  var router = require("express").Router();
+const router = Router();
 
   // Create a new Match
   router.post("/", [authenticate], match.create);
@@ -20,5 +19,4 @@ module.exports = (app) => {
   // Get one match
   router.get("/:id",[authenticate], match.findOne);
 
-  app.use("/EsportsAPI/match", router);
-};
+export default router;

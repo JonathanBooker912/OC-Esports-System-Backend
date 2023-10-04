@@ -1,7 +1,8 @@
-const db = require("../models");
+import db from "../models/index.js";
 const Match = db.match;
 const Team = db.team;
 
+const exports = {};
 
 exports.createMatch = async (matchData) => {
     if (matchData.teamId === undefined){
@@ -58,3 +59,5 @@ exports.deleteMatch = async (id) => {
         where: { id:id},
     })
 }
+
+export default exports;

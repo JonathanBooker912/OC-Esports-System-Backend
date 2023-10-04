@@ -1,5 +1,7 @@
-const db = require("../models");
+import db from "../models/index.js";
 const Team = db.team;
+
+const exports = {};
 
 exports.createTeam = async (team) => {
     // Validate name
@@ -38,3 +40,5 @@ exports.updateTeam = async (team, id) => {
 exports.deleteTeam = async (id) => {
     return await Team.destroy({where: {id:id},});
 }
+
+export default exports;
