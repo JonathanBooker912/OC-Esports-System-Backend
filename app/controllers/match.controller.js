@@ -16,7 +16,6 @@ exports.create = async (req, res) => {
     });
 };
 
-
 // Find one Match by ID
 exports.findOne = async (req, res) => {
   await Match.findOneMatch(req.params.id)
@@ -39,27 +38,26 @@ exports.findOne = async (req, res) => {
 
 // Find all Matches
 exports.findAll = async (req, res) => {
-const id = req.query.id;
-const name = req.query.name;
-const filter = req.query.filter;
-const offset = req.query.pageSize * (req.query.page - 1) || 0;
-const limit = Number(req.query.pageSize) || 10; // Adjust the default limit as needed
-var condition;
-if (filter == undefined || filter == "" || filter == null){
-  condition = id
-    ? { id: { [Op.like]: `%${id}%` } }
-    : name
-    ? { name: { [Op.like]: `%${name}%` } }
-    : null;
-}
-else {
-  condition = {
-    [Op.or]: [
-      { id: { [Op.like]: "%" + filter + "%" } },
-      { name: { [Op.like]: "%" + filter + "%" } },
-    ],
-  };
-}
+  const id = req.query.id;
+  const name = req.query.name;
+  const filter = req.query.filter;
+  const offset = req.query.pageSize * (req.query.page - 1) || 0;
+  const limit = Number(req.query.pageSize) || 10; // Adjust the default limit as needed
+  var condition;
+  if (filter == undefined || filter == "" || filter == null) {
+    condition = id
+      ? { id: { [Op.like]: `%${id}%` } }
+      : name
+      ? { name: { [Op.like]: `%${name}%` } }
+      : null;
+  } else {
+    condition = {
+      [Op.or]: [
+        { id: { [Op.like]: "%" + filter + "%" } },
+        { name: { [Op.like]: "%" + filter + "%" } },
+      ],
+    };
+  }
   await Match.findAllMatchesWhere(condition, offset, limit)
     .then((data) => {
       res.send(data);
@@ -73,7 +71,7 @@ else {
 
 // Update a Match by ID
 exports.update = async (req, res) => {
-console.log(res.body);
+  console.log(res.body);
   await Match.updateMatch(req.body, req.params.id)
     .then((num) => {
       if (num == 1) {

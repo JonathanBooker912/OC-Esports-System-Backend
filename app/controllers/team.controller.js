@@ -1,5 +1,5 @@
 import db from "../models/index.js";
-import Team from "../sequelizeUtils/team.js"
+import Team from "../sequelizeUtils/team.js";
 const Op = db.Sequelize.Op;
 
 const exports = {};
@@ -7,55 +7,55 @@ const exports = {};
 // Create a new team
 exports.create = async (req, res) => {
   await Team.createTeam(req.body)
-  .then(() => {
-    res.status(200).send({message: "Team was created successfully"});
-  })
-  .catch((err) => {
-    res.status(400).send({
-      message: err.message || "Something went wrong while creating a team"
+    .then(() => {
+      res.status(200).send({ message: "Team was created successfully" });
+    })
+    .catch((err) => {
+      res.status(400).send({
+        message: err.message || "Something went wrong while creating a team",
+      });
     });
-  })
 };
 
 // Update an existing team
 exports.update = async (req, res) => {
   await Team.updateTeam(req.body, req.params.id)
-  .then((num) => {
-    if (num == 1){
-      res.status(200).send({
-        message: "Team was updated successfully"
+    .then((num) => {
+      if (num == 1) {
+        res.status(200).send({
+          message: "Team was updated successfully",
+        });
+      } else {
+        res.status(404).send({
+          message: "Team was not found",
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(400).send({
+        message: err.message || "Something went wrong while updating a team",
       });
-    }
-    else {
-       res.status(404).send({
-        message: "Team was not found"
-       })
-    }
-  })
-  .catch((err) => {
-    res.status(400).send({
-      message: err.message || "Something went wrong while updating a team"
     });
-  });
 };
 
 // Delete a team
 exports.delete = async (req, res) => {
   await Team.deleteTeam(req.params.id)
-  .then((num)=>{
-    if (num === 1) {
-      res.send({ message: "Team was deleted successfully." });
-    } else {
-      res.status(404).send({ 
-        message: "Team not found or unable to delete." 
+    .then((num) => {
+      if (num === 1) {
+        res.send({ message: "Team was deleted successfully." });
+      } else {
+        res.status(404).send({
+          message: "Team not found or unable to delete.",
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(400).send({
+        message:
+          err.message || "Something went wrong trying to delete this team",
       });
-    }
-  })
-  .catch((err) => {
-    res.status(400).send({
-      message: err.message || "Something went wrong trying to delete this team"
     });
-  });
 };
 
 exports.findOne = (req, res) => {
@@ -71,7 +71,9 @@ exports.findOne = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Something went wrong deleting team with id of " + req.params.id,
+        message:
+          err.message ||
+          "Something went wrong deleting team with id of " + req.params.id,
       });
     });
 };
@@ -98,14 +100,14 @@ exports.findAll = async (req, res) => {
     };
   }
   Team.findAllTeamsWhere(condition, offset, limit)
-      .then((data) => {
-        res.send(data);
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message: err.message || "Some error occurred while retrieving teams.",
-        });
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving teams.",
       });
-  };
+    });
+};
 
 export default exports;

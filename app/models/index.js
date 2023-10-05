@@ -99,17 +99,16 @@ db.userRole.belongsTo(
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
 );
 
-
 // Match relationships
 db.team.hasMany(
   db.match,
-  { as:"match"},
-  { foreignKey: {allowNull: false}, onDelete:"CASCADE"}
-)
+  { as: "match" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
+);
 db.match.belongsTo(
   db.team,
-  { as:"team"},
-  {foreignKey: {allowNull: false}, onDelete:"CASCADE"}
-)
+  { as: "team" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
+);
 
 export default db;

@@ -10,9 +10,7 @@ const Match = SequelizeInstance.define("match", {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
-  }
+  },
 });
 
 export default Match;
-  
-  

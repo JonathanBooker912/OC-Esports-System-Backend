@@ -4,19 +4,19 @@ import { Router } from "express";
 
 const router = Router();
 
-  // Create a new Match
-  router.post("/", [authenticate], match.create);
+// Create a new Match
+router.post("/", [authenticate], match.create);
 
-  // Update one match
-  router.put("/:id", [authenticate], match.update);
+// Update one match
+router.put("/:id", [authenticate], match.update);
 
-  // Delete one match
-  router.delete("/:id",[authenticate, isAdmin], match.delete);
+// Delete one match
+router.delete("/:id", [authenticate, isAdmin], match.delete);
 
-  // Get all matches
-  router.get("/",[authenticate], match.findAll);
+// Get all matches
+router.get("/", [authenticate], match.findAll);
 
-  // Get one match
-  router.get("/:id",[authenticate], match.findOne);
+// Get one match
+router.get("/:id", [authenticate], match.findOne);
 
 export default router;
