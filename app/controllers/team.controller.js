@@ -7,7 +7,7 @@ const exports = {};
 // Create a new team
 exports.create = async (req, res) => {
   await Team.createTeam(req.body)
-  .then((data) => {
+  .then(() => {
     res.status(200).send({message: "Team was created successfully"});
   })
   .catch((err) => {
@@ -69,9 +69,9 @@ exports.findOne = (req, res) => {
         });
       }
     })
-    .catch(() => {
+    .catch((err) => {
       res.status(500).send({
-        message: err.message || "Something went wrong deleting team with id of " + id,
+        message: err.message || "Something went wrong deleting team with id of " + req.params.id,
       });
     });
 };
