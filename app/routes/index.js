@@ -7,6 +7,7 @@ import TeamRoutes from "./team.routes.js";
 import EmergencyContactRoutes from "./emergencyContact.routes.js";
 import RoleRoutes from "./role.routes.js";
 import UserRoleRoutes from "./userrole.routes.js";
+import MatchRoutes from "./match.routes.js";
 import MetricRoutes from "./metric.routes.js"
 
 const router = Router();
@@ -20,6 +21,7 @@ router.use("/titles", TitleRoutes);
 router.use("/teams", TeamRoutes);
 router.use("/role", RoleRoutes);
 router.use("/userrole", UserRoleRoutes);
+router.use("/match", MatchRoutes);
 router.use("/metrics", MetricRoutes);
 
 export default router;
