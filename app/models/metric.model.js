@@ -8,17 +8,11 @@ const Metric = SequelizeInstance.define("metric", {
     primaryKey: true,
   },
   metricType: {
-    type: Sequelize.ENUM(
-        "Match",
-        "Player",
-      ),
+    type: Sequelize.ENUM("Match", "Player"),
     allowNull: false,
   },
   dataType: {
-    type: Sequelize.ENUM(
-        "Integer",
-        "Float",
-      ),
+    type: Sequelize.ENUM("Integer", "Float"),
   },
   name: {
     type: Sequelize.STRING(50),

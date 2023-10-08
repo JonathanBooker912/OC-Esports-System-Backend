@@ -8,8 +8,8 @@ import team from "./team.model.js";
 import emergencyContact from "./emergencyContact.model.js";
 import role from "./role.model.js";
 import userRole from "./userrole.model.js";
-
-import metric from "./metric.model.js"
+import match from "./match.model.js";
+import metric from "./metric.model.js";
 
 const db = {};
 
@@ -21,6 +21,7 @@ db.team = team;
 db.emergencyContact = emergencyContact;
 db.role = role;
 db.userRole = userRole;
+db.match = match;
 db.metric = metric;
 
 db.Sequelize = Sequelize;
@@ -101,10 +102,22 @@ db.userRole.belongsTo(
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
 );
 
+// Match relationships
+db.team.hasMany(
+  db.match,
+  { as: "match" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
+);
+db.match.belongsTo(
+  db.team,
+  { as: "team" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
+);
+
 // FK for title in metric
 db.title.hasMany(
   db.metric,
-  
+
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
 );
 

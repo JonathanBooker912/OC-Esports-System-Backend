@@ -15,5 +15,4 @@ router.get("/:id", [authenticate], titles.find);
 
 router.get("/", [authenticate], titles.findAll);
 
-
 export default router;
