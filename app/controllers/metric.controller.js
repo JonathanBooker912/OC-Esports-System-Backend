@@ -143,18 +143,7 @@ exports.getAllForTitle = async (req, res) => {
       },
     ],
   };
-  // if (filter == undefined || filter == "" || filter == null) {
-  //   condition[Op.or] = id
-  //     ? { id: { [Op.like]: `%${id}%` } }
-  //     : name
-  //     ? { name: { [Op.like]: `%${name}%` } }
-  //     : null;
-  // } else {
-  //   condition[Op.or] = [
-  //       { id: { [Op.like]: "%" + filter + "%" } },
-  //       { name: { [Op.like]: "%" + filter + "%" } },
-  //     ];
-  // }
+
   await metricUtils
     .findAllMatchesWhere(condition, offset, limit)
     .then((data) => {

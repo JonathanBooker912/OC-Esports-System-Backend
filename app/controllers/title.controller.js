@@ -1,6 +1,7 @@
 import db from "../models/index.js";
 
 const Title = db.title;
+const Op = db.Sequelize.Op;
 
 const exports = {};
 
@@ -86,18 +87,47 @@ exports.find = (req, res) => {
 };
 
 // Retrieve all Titles from the database.
-exports.findAll = (req, res) => {
-  Title.findAll({ attributes: ["id", "name"] })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tutorials.",
-      });
+
+exports.findAll = async (req, res) => {
+  console.log(req.params, req.query);
+
+  const id = req.query.id;
+  const name = req.query.name;
+  const filter = req.query.filter;
+  const offset = req.query.pageSize * (req.query.page - 1) || 0;
+  const limit = Number(req.query.pageSize) || 10; // Adjust the default limit as needed
+
+
+  // Build the filter condition dynamically
+  const condition = {
+    [Op.or]: [
+      {
+        id: {
+          [Op.like]: `%${filter || id || ""}%`,
+        },
+      },
+      {
+        name: {
+          [Op.like]: `%${filter || name || ""}%`,
+        },
+      },
+    ],
+  };
+
+  try {
+    const data = await Title.findAndCountAll({
+      where: condition,
+      offset: offset,
+      limit: limit,
     });
+    res.send(data);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving matches.",
+    });
+  }
 };
+
 
 exports.delete = (req, res) => {
   const { id } = req.params;
