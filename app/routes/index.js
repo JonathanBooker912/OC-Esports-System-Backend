@@ -8,7 +8,7 @@ import EmergencyContactRoutes from "./emergencyContact.routes.js";
 import RoleRoutes from "./role.routes.js";
 import UserRoleRoutes from "./userrole.routes.js";
 import MatchRoutes from "./match.routes.js";
-import MetricRoutes from "./metric.routes.js"
+import MetricRoutes from "./metric.routes.js";
 
 const router = Router();
 
