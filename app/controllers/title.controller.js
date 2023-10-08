@@ -58,13 +58,12 @@ exports.update = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Error updating Title with id=" + id,
       });
     });
 };
-
 
 exports.find = (req, res) => {
   const { id } = req.params;
@@ -97,7 +96,6 @@ exports.findAll = async (req, res) => {
   const offset = req.query.pageSize * (req.query.page - 1) || 0;
   const limit = Number(req.query.pageSize) || 10; // Adjust the default limit as needed
 
-
   // Build the filter condition dynamically
   const condition = {
     [Op.or]: [
@@ -128,7 +126,6 @@ exports.findAll = async (req, res) => {
   }
 };
 
-
 exports.delete = (req, res) => {
   const { id } = req.params;
 
@@ -144,7 +141,7 @@ exports.delete = (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({
         message: "Error deleting Title with id=" + id,
       });
