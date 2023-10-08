@@ -7,6 +7,8 @@ const router = Router();
 // Create a new Tutorial
 router.post("/", [authenticate], titles.create);
 
+router.get("/:id", [authenticate], titles.find);
+
 router.get("/", [authenticate], titles.findAll);
 
 export default router;
