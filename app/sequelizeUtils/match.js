@@ -36,12 +36,12 @@ exports.createMatch = async (matchData) => {
 
 exports.findOneMatch = async (id) => {
   return await Match.findOne({
-    where: { id: id},
+    where: { id: id },
     include: {
       model: db.team,
       required: true,
-      as: "team"
-    }
+      as: "team",
+    },
   });
 };
 

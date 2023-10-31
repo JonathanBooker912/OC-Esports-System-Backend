@@ -12,10 +12,8 @@ exports.findAllMatchesWhere = async (condition, offset, limit) => {
 };
 
 exports.getAllMetrics = async (titleId) => {
-  return await Metric.findAll(
-    {
-      where: { titleId: titleId }
-    }
-  );
-}
+  return await Metric.findAll({
+    where: { titleId: titleId },
+  });
+};
 export default exports;

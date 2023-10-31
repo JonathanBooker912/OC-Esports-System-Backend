@@ -126,26 +126,26 @@ db.title.hasMany(
 // MatchData relationships
 db.match.hasMany(
   db.matchData,
-  { as: "matchData"},
-  { foreignKey: { allowNull: false}, onDelete: "CASCADE"},
+  { as: "matchData" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
 );
 
 db.matchData.belongsTo(
   db.match,
-  {as: "match"},
-  { foreignKey: { allowNull: false}, onDelete: "CASCADE"},
+  { as: "match" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
 );
 
 db.metric.hasMany(
   db.matchData,
-  {as: "matchData"},
-  { foreignKey: { allowNull: false}, onDelete: "CASCADE"},
+  { as: "matchData" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
 );
 
 db.matchData.belongsTo(
   db.metric,
-  {as: "metric"},
-  {foreignKey: {allowNull: false}, onDelete: "CASCADE"},
+  { as: "metric" },
+  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
 );
 
 export default db;
