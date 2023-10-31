@@ -18,9 +18,9 @@ router.get("/title/:titleId", [authenticate], metrics.getAllForTitle);
 
 // Get all Metrics for a given title with no pagination or searching
 router.get(
-  "/title/:titleId/all",
+  "/title/:titleId/matchMetrics",
   [authenticate],
-  metrics.findAllMetricsForTitle,
+  metrics.findAllMatchMetricsForTitle,
 );
 
 // Get a single Metric by ID
