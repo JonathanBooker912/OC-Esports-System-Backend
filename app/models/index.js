@@ -10,6 +10,7 @@ import role from "./role.model.js";
 import userRole from "./userrole.model.js";
 import match from "./match.model.js";
 import metric from "./metric.model.js";
+import matchData from "./matchData.model.js";
 
 const db = {};
 
@@ -23,6 +24,7 @@ db.role = role;
 db.userRole = userRole;
 db.match = match;
 db.metric = metric;
+db.matchData = matchData;
 
 db.Sequelize = Sequelize;
 
@@ -72,7 +74,7 @@ db.team.hasMany(
 // Foreign key for title in team
 db.title.hasMany(
   db.team,
-  { as: "title" },
+  { as: "team" },
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
 );
 
@@ -119,6 +121,31 @@ db.title.hasMany(
   db.metric,
 
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
+);
+
+// MatchData relationships
+db.match.hasMany(
+  db.matchData,
+  { as: "matchData"},
+  { foreignKey: { allowNull: false}, onDelete: "CASCADE"},
+);
+
+db.matchData.belongsTo(
+  db.match,
+  {as: "match"},
+  { foreignKey: { allowNull: false}, onDelete: "CASCADE"},
+);
+
+db.metric.hasMany(
+  db.matchData,
+  {as: "matchData"},
+  { foreignKey: { allowNull: false}, onDelete: "CASCADE"},
+);
+
+db.matchData.belongsTo(
+  db.metric,
+  {as: "metric"},
+  {foreignKey: {allowNull: false}, onDelete: "CASCADE"},
 );
 
 export default db;
