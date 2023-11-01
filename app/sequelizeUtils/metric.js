@@ -11,4 +11,9 @@ exports.findAllMatchesWhere = async (condition, offset, limit) => {
   });
 };
 
+exports.getAllMatchMetrics = async (titleId) => {
+  return await Metric.findAll({
+    where: { titleId: titleId, metricType: "Match" },
+  });
+};
 export default exports;

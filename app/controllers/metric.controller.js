@@ -156,6 +156,19 @@ exports.getAllForTitle = async (req, res) => {
     });
 };
 
+exports.findAllMatchMetricsForTitle = async (req, res) => {
+  await metricUtils
+    .getAllMatchMetrics(req.params.titleId)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occured while retrieving metrics",
+      });
+    });
+};
+
 exports.getDataTypes = (req, res) => {
   res.send(Metric.getAttributes().dataType.values);
 };

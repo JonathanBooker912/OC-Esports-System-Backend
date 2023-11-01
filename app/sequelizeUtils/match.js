@@ -35,7 +35,14 @@ exports.createMatch = async (matchData) => {
 };
 
 exports.findOneMatch = async (id) => {
-  return await Match.findByPk(id);
+  return await Match.findOne({
+    where: { id: id },
+    include: {
+      model: db.team,
+      required: true,
+      as: "team",
+    },
+  });
 };
 
 exports.findAllMatchesWhere = async (condition, offset, limit) => {

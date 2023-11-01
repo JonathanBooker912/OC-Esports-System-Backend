@@ -9,6 +9,7 @@ import RoleRoutes from "./role.routes.js";
 import UserRoleRoutes from "./userrole.routes.js";
 import MatchRoutes from "./match.routes.js";
 import MetricRoutes from "./metric.routes.js";
+import MatchDataRoutes from "./matchData.routes.js";
 
 const router = Router();
 
@@ -23,5 +24,6 @@ router.use("/role", RoleRoutes);
 router.use("/userrole", UserRoleRoutes);
 router.use("/match", MatchRoutes);
 router.use("/metrics", MetricRoutes);
+router.use("/matchData", MatchDataRoutes);
 
 export default router;
