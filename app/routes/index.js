@@ -10,11 +10,13 @@ import UserRoleRoutes from "./userrole.routes.js";
 import MatchRoutes from "./match.routes.js";
 import MetricRoutes from "./metric.routes.js";
 import MatchDataRoutes from "./matchData.routes.js";
+import PlayerDataRoutes from "./playerData.routes.js";
+import MatchParticipantRoutes from "./matchParticpant.routes.js";
 
 const router = Router();
 
 router.use("/user", UserRoutes);
-router.use("/user", AliasRoutes);
+router.use("/alias", AliasRoutes);
 router.use("/user", EmergencyContactRoutes);
 
 router.use("/", AuthRoutes);
@@ -25,5 +27,7 @@ router.use("/userrole", UserRoleRoutes);
 router.use("/match", MatchRoutes);
 router.use("/metrics", MetricRoutes);
 router.use("/matchData", MatchDataRoutes);
+router.use("/playerData", PlayerDataRoutes);
+router.use("/matchParticipant", MatchParticipantRoutes);
 
 export default router;

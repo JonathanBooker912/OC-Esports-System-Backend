@@ -16,11 +16,18 @@ router.delete("/:id", [authenticate], metrics.delete);
 // Get all Metrics for a given title
 router.get("/title/:titleId", [authenticate], metrics.getAllForTitle);
 
-// Get all Metrics for a given title with no pagination or searching
+// Get all Match Metrics for a given title with no pagination or searching
 router.get(
   "/title/:titleId/matchMetrics",
   [authenticate],
   metrics.findAllMatchMetricsForTitle,
+);
+
+// Get all Player Metrics for a given title with no pagination or searching
+router.get(
+  "/title/:titleId/playerMetrics",
+  [authenticate],
+  metrics.findAllPlayerMetricsForTitle,
 );
 
 // Get a single Metric by ID

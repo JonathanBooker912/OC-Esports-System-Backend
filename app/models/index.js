@@ -9,8 +9,10 @@ import emergencyContact from "./emergencyContact.model.js";
 import role from "./role.model.js";
 import userRole from "./userrole.model.js";
 import match from "./match.model.js";
+import matchParticipant from "./matchParticipant.model.js";
 import metric from "./metric.model.js";
 import matchData from "./matchData.model.js";
+import playerData from "./playerData.model.js";
 
 const db = {};
 
@@ -23,8 +25,10 @@ db.emergencyContact = emergencyContact;
 db.role = role;
 db.userRole = userRole;
 db.match = match;
+db.matchParticipant = matchParticipant;
 db.metric = metric;
 db.matchData = matchData;
+db.playerData = playerData;
 
 db.Sequelize = Sequelize;
 
@@ -147,5 +151,34 @@ db.matchData.belongsTo(
   { as: "metric" },
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
 );
+
+// FK for alias in matchParticipant
+db.alias.hasMany(db.matchParticipant, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+// tells matchParticipant that it can pull from the alias model
+db.matchParticipant.belongsTo(db.alias, { foreignKey: "aliasId" });
+
+// FK for match in matchParticipant
+db.match.hasMany(db.matchParticipant, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+// FK for alias in matchParticipant
+db.matchParticipant.hasMany(db.playerData, {
+  as: "participant",
+  foreignKey: { name: "participantId", allowNull: false },
+  onDelete: "CASCADE",
+});
+
+// FK for alias in matchParticipant
+db.metric.hasMany(db.playerData, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+db.playerData.belongsTo(db.metric, { foreignKey: "metricId" });
 
 export default db;

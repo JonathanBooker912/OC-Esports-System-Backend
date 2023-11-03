@@ -53,17 +53,34 @@ exports.create = (req, res) => {
     });
 };
 
-exports.findAll = (req, res) => {
-  const id = req.query.id;
+exports.findAllForUser = (req, res) => {
+  const userId = req.params.userId;
   const type = req.query.type;
 
-  var condition = id
-    ? { id: { [Op.like]: `%${id}%` } }
-    : type
-    ? { aliasType: { [Op.like]: `%${type}%` } }
-    : null;
+  var condition = {
+    userId: userId,
+    [Op.and]: [type ? { aliasType: { [Op.like]: `%${type}%` } } : null],
+  };
 
   Alias.findAll({ where: condition })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Something went wrong while retrieving aliases",
+      });
+    });
+};
+
+exports.findAllForTeam = (req, res) => {
+  const teamId = req.params.teamId;
+
+  Alias.findAll({
+    where: {
+      teamId: teamId,
+    },
+  })
     .then((data) => {
       res.send(data);
     })
