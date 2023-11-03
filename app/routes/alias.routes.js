@@ -8,7 +8,7 @@ const router = Router();
 router.post("/:userId/alias", [authenticate], alias.create);
 
 //Find all aliases for a user
-router.get("/:userId/alias", [authenticate], alias.findAll);
+router.get("/:userId/alias", [authenticate], alias.findAllForUser);
 
 //Find one alias for a user
 router.get("/:userId/alias/:id", [authenticate], alias.findOne);
@@ -21,5 +21,8 @@ router.delete("/:userId/alias/:id", [authenticate], alias.deleteOne);
 
 //Delete all aliases for one user
 router.delete("/:userId/alias", [authenticate], alias.deleteAll);
+
+//Find all aliases for a team
+router.get("/team/:teamId", [authenticate], alias.findAllForTeam);
 
 export default router;

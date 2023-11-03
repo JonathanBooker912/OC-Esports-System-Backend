@@ -9,7 +9,7 @@ const PlayerData = SequelizeInstance.define("playerData", {
   },
   value: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
 });
 

@@ -158,7 +158,20 @@ exports.getAllForTitle = async (req, res) => {
 
 exports.findAllMatchMetricsForTitle = async (req, res) => {
   await metricUtils
-    .getAllMatchMetrics(req.params.titleId)
+    .getAllMetricsByType(req.params.titleId, "Match")
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occured while retrieving metrics",
+      });
+    });
+};
+
+exports.findAllPlayerMetricsForTitle = async (req, res) => {
+  await metricUtils
+    .getAllMetricsByType(req.params.titleId, "Player")
     .then((data) => {
       res.send(data);
     })

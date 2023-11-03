@@ -3,7 +3,7 @@ import db from "../models/index.js";
 const MatchParticipant = db.matchParticipant;
 const Alias = db.alias;
 
-const Op = db.Sequelize.Op
+const Op = db.Sequelize.Op;
 
 const exports = {};
 
@@ -32,7 +32,12 @@ exports.create = (req, res) => {
 exports.findOne = (req, res) => {
   const matchParticipantId = req.params.id;
 
-  MatchParticipant.findByPk(matchParticipantId)
+  MatchParticipant.findByPk(matchParticipantId, {
+    include: {
+      model: Alias,
+      attributes: ["gamerTag"], // Include only specified fields
+    },
+  })
     .then((matchParticipant) => {
       if (!matchParticipant) {
         return res.status(404).json({ message: "MatchParticipant not found" });
@@ -83,7 +88,9 @@ exports.delete = (req, res) => {
       return matchParticipant.destroy();
     })
     .then(() => {
-      res.status(204).send(); // No content, successful deletion
+      res
+        .status(200)
+        .send({ message: "MatchParticipant deleted successfully" }); // No content, successful deletion
     })
     .catch((error) => {
       console.log(error);
@@ -100,7 +107,9 @@ exports.findAllForAlias = (req, res) => {
   })
     .then((matchParticipants) => {
       if (!matchParticipants || matchParticipants.length === 0) {
-        return res.status(404).json({ message: "No MatchParticipants found for this alias" });
+        return res
+          .status(404)
+          .json({ message: "No MatchParticipants found for this alias" });
       }
       res.status(200).json(matchParticipants);
     })
@@ -117,7 +126,8 @@ exports.findAllForMatch = async (req, res) => {
   const { page, pageSize } = req.query;
 
   console.log(req.query.pageSize);
-  const filter = req.query.filter || '';
+  console.log(req.query.filter);
+  const filter = req.query.filter || "";
 
   const offset = (page - 1) * pageSize;
   const limit = Number(pageSize) || 10;
@@ -126,21 +136,6 @@ exports.findAllForMatch = async (req, res) => {
     matchId: matchId,
   };
 
-  // if (filter) {
-  //   whereCondition[Op.or] = [
-  //     {
-  //       '$Alias.gamerTag$': {
-  //         [Op.like]: `%${filter}%`,
-  //       },
-  //     },
-  //     {
-  //       '$Alias.userId$': {
-  //         [Op.like]: `%${filter}%`,
-  //       },
-  //     },
-  //   ];
-  // }
-
   try {
     const matchParticipants = await MatchParticipant.findAndCountAll({
       where: whereCondition,
@@ -148,13 +143,18 @@ exports.findAllForMatch = async (req, res) => {
       offset,
       include: {
         model: Alias,
-        attributes: ['gamerTag', 'userId'], // Include only specified fields
+        attributes: ["gamerTag", "userId"], // Include only specified fields
+        where: {
+          gamerTag: {
+            [Op.like]: `%${filter}%`,
+          },
+        },
       },
     });
 
     //matchParticipants.rows = matchParticipants.rows.map((participant => {participant.id, participant.aliasId, participant.matchId, participant.alias.gamerTag, participant.alias.userId }));
 
-    const formattedResponse = {rows: [], count: matchParticipants.count}
+    const formattedResponse = { rows: [], count: matchParticipants.count };
     formattedResponse.rows = matchParticipants.rows.map((participant) => ({
       id: participant.id,
       aliasId: participant.aliasId,
@@ -170,4 +170,4 @@ exports.findAllForMatch = async (req, res) => {
   }
 };
 
-export default exports
+export default exports;

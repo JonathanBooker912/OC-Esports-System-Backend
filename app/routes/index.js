@@ -16,7 +16,7 @@ import MatchParticipantRoutes from "./matchParticpant.routes.js";
 const router = Router();
 
 router.use("/user", UserRoutes);
-router.use("/user", AliasRoutes);
+router.use("/alias", AliasRoutes);
 router.use("/user", EmergencyContactRoutes);
 
 router.use("/", AuthRoutes);

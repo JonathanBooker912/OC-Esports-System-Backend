@@ -1,5 +1,7 @@
 import db from "../models/index.js";
 
+const Op = db.Sequelize.Op;
+
 const PlayerData = db.playerData;
 const Metric = db.metric;
 
@@ -82,7 +84,7 @@ exports.delete = (req, res) => {
       return playerData.destroy();
     })
     .then(() => {
-      res.status(200).send({message: "PlayerData deleted successfully"}); // No content, successful deletion
+      res.status(200).send({ message: "PlayerData deleted successfully" }); // No content, successful deletion
     })
     .catch((error) => {
       console.log(error);
@@ -91,35 +93,52 @@ exports.delete = (req, res) => {
 };
 
 // Find all PlayerData entries for a specific participant
-exports.findAllForParticipant = (req, res) => {
+exports.findAllForParticipant = async (req, res) => {
   const participantId = req.params.participantId;
 
-  PlayerData.findAndCountAll({
-    where: { participantId: participantId },
-    include: {
-      model: Metric,
-      attributes: ['name'], // Include only specified fields
-    },
-  })
-    .then((playerData) => {
-      if (!playerData || playerData.length === 0) {
-        return res.status(404).json({ message: "No PlayerData found for this participant" });
-      }
+  const { page, pageSize } = req.query;
+  const filter = req.query.filter || "";
 
-      const formattedResponse = {rows: [], count: playerData.count}
-      formattedResponse.rows = playerData.rows.map((data) => ({
-        id: data.id,
-        value: data.value,
-        metricId: data.metricId,
-        metricName: data.metric.name,
-      }));
+  const offset = (page - 1) * pageSize;
+  const limit = Number(pageSize) || 10;
 
-      res.status(200).json(formattedResponse);
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(500).json({ error: "Unable to retrieve PlayerData" });
+  const whereCondition = {
+    participantId: participantId,
+  };
+
+  try {
+    const playerData = await PlayerData.findAndCountAll({
+      where: whereCondition,
+      limit,
+      offset,
+      include: {
+        model: Metric,
+        attributes: ["name"],
+        where: {
+          name: {
+            [Op.like]: `%${filter}%`,
+          },
+        },
+      },
     });
+
+    const formattedResponse = {
+      rows: [],
+      count: playerData.count,
+    };
+
+    formattedResponse.rows = playerData.rows.map((data) => ({
+      id: data.id,
+      value: data.value,
+      metricId: data.metricId,
+      metricName: data.metric.name,
+    }));
+
+    res.status(200).json(formattedResponse);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Unable to retrieve PlayerData" });
+  }
 };
 
-export default exports
+export default exports;
