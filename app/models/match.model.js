@@ -16,7 +16,7 @@ const Match = SequelizeInstance.define("match", {
   },
   matchIsWin: {
     type: Sequelize.BOOLEAN,
-  }
+  },
 });
 
 export default Match;

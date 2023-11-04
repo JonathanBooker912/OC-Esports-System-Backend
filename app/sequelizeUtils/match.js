@@ -37,7 +37,7 @@ exports.createMatch = async (matchData) => {
     name: matchData.name,
     teamId: matchData.teamId,
     matchDate: matchData.matchDate,
-    matchIsWin: matchData.matchIsWin
+    matchIsWin: matchData.matchIsWin,
   };
 
   // Save match in the database
