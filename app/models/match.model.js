@@ -11,6 +11,12 @@ const Match = SequelizeInstance.define("match", {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  matchDate: {
+    type: Sequelize.DATEONLY,
+  },
+  matchIsWin: {
+    type: Sequelize.BOOLEAN,
+  }
 });
 
 export default Match;
