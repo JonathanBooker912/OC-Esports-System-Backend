@@ -9,6 +9,14 @@ exports.createMatch = async (matchData) => {
     const error = new Error("Team ID cannot be empty for match!");
     throw error;
   }
+  if (matchData.matchDate === undefined) {
+    const error = new Error("Match Date cannot be empty for match!");
+    throw error;
+  }
+  if (matchData.matchIsWin === undefined) {
+    const error = new Error("matchIsWin cannot be empty for match!");
+    throw error;
+  }
 
   await Team.findByPk(matchData.teamId)
     .then((data) => {
@@ -28,6 +36,8 @@ exports.createMatch = async (matchData) => {
     id: matchData.id,
     name: matchData.name,
     teamId: matchData.teamId,
+    matchDate: matchData.matchDate,
+    matchIsWin: matchData.matchIsWin,
   };
 
   // Save match in the database
