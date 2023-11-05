@@ -160,16 +160,17 @@ db.alias.hasMany(db.matchParticipant, {
 
 // tells matchParticipant that it can pull from the alias model
 db.matchParticipant.belongsTo(db.alias, { foreignKey: "aliasId" });
+db.matchParticipant.belongsTo(db.match, { foreignKey: "matchId" });
+
 
 // FK for match in matchParticipant
-db.match.hasMany(db.matchParticipant, {
-  foreignKey: { allowNull: false },
-  onDelete: "CASCADE",
-});
+// db.match.hasMany(db.matchParticipant, {
+//   foreignKey: { allowNull: false },
+//   onDelete: "CASCADE",
+// });
 
 // FK for alias in matchParticipant
 db.matchParticipant.hasMany(db.playerData, {
-  as: "participant",
   foreignKey: { name: "participantId", allowNull: false },
   onDelete: "CASCADE",
 });
