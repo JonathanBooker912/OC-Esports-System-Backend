@@ -162,14 +162,10 @@ db.alias.hasMany(db.matchParticipant, {
 db.matchParticipant.belongsTo(db.alias, { foreignKey: "aliasId" });
 
 // FK for match in matchParticipant
-db.match.hasMany(db.matchParticipant, {
-  foreignKey: { allowNull: false },
-  onDelete: "CASCADE",
-});
+db.matchParticipant.belongsTo(db.match, { foreignKey: "matchId" });
 
 // FK for alias in matchParticipant
 db.matchParticipant.hasMany(db.playerData, {
-  as: "participant",
   foreignKey: { name: "participantId", allowNull: false },
   onDelete: "CASCADE",
 });
