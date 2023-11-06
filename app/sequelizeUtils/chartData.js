@@ -1,5 +1,5 @@
 import db from "../models/index.js";
-import parseData from "./support/dataParser.js"
+import parseData from "./support/dataParser.js";
 
 const MatchParticipant = db.matchParticipant;
 const PlayerData = db.playerData;
@@ -9,28 +9,28 @@ const Match = db.match;
 const exports = {};
 
 exports.findAllDataForPlayer = async (aliasId, metricId) => {
-  const processedData = []
+  const processedData = [];
   const playerData = await MatchParticipant.findAll({
     where: {
-      aliasId: aliasId
+      aliasId: aliasId,
     },
     include: [
       {
         model: PlayerData,
         where: {
-          metricId: metricId
+          metricId: metricId,
         },
         include: {
           model: Metric,
-          attributes: ["dataType"]
-        }
+          attributes: ["dataType"],
+        },
       },
       {
         model: Match,
         as: "match",
-        attributes: ["matchDate"]
-      }
-    ]
+        attributes: ["matchDate"],
+      },
+    ],
   });
 
   playerData.forEach((player) => {
@@ -38,15 +38,13 @@ exports.findAllDataForPlayer = async (aliasId, metricId) => {
 
     player.playerData.forEach((dataPoint) => {
       const processedPoint = {
-        value: parseData(dataPoint.value, dataPoint.metric.dataType), 
-        matchDate: date
-      }
+        value: parseData(dataPoint.value, dataPoint.metric.dataType),
+        matchDate: date,
+      };
       processedData.push(processedPoint);
-    })
-  })
+    });
+  });
   return processedData;
 };
-
-
 
 export default exports;

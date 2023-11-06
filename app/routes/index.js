@@ -13,7 +13,7 @@ import MatchDataRoutes from "./matchData.routes.js";
 import PlayerDataRoutes from "./playerData.routes.js";
 import MatchParticipantRoutes from "./matchParticpant.routes.js";
 
-import ChartDataRotues from "./chartDataRoutes.js"
+import ChartDataRotues from "./chartDataRoutes.js";
 
 const router = Router();
 
@@ -32,6 +32,6 @@ router.use("/matchData", MatchDataRoutes);
 router.use("/playerData", PlayerDataRoutes);
 router.use("/matchParticipant", MatchParticipantRoutes);
 
-router.use("/chartData", ChartDataRotues)
+router.use("/chartData", ChartDataRotues);
 
 export default router;

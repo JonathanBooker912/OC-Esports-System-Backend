@@ -164,7 +164,6 @@ db.matchParticipant.belongsTo(db.alias, { foreignKey: "aliasId" });
 // FK for match in matchParticipant
 db.matchParticipant.belongsTo(db.match, { foreignKey: "matchId" });
 
-
 // FK for alias in matchParticipant
 db.matchParticipant.hasMany(db.playerData, {
   foreignKey: { name: "participantId", allowNull: false },
