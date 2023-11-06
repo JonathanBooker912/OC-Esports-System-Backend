@@ -1,6 +1,9 @@
 import db from "../models/index.js";
+import parseData from "./support/dataParser.js"
+
 const MatchParticipant = db.matchParticipant;
 const PlayerData = db.playerData;
+const Metric = db.metric;
 const Match = db.match;
 
 const exports = {};
@@ -16,6 +19,10 @@ exports.findAllDataForPlayer = async (aliasId, metricId) => {
         model: PlayerData,
         where: {
           metricId: metricId
+        },
+        include: {
+          model: Metric,
+          attributes: ["dataType"]
         }
       },
       {
@@ -27,9 +34,17 @@ exports.findAllDataForPlayer = async (aliasId, metricId) => {
   });
 
   playerData.forEach((player) => {
-    player.participant
-  })
+    const date = player.match.matchDate;
 
+    player.playerData.forEach((dataPoint) => {
+      const processedPoint = {
+        value: parseData(dataPoint.value, dataPoint.metric.dataType), 
+        matchDate: date
+      }
+      processedData.push(processedPoint);
+    })
+  })
+  return processedData;
 };
 
 
