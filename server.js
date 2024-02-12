@@ -3,6 +3,10 @@ import express, { json, urlencoded } from "express";
 import SequelizeInstance from "./app/sequelizeUtils/sequelizeInstance.js";
 import routes from "./app/routes/index.js";
 import cors from "cors";
+
+import { fileURLToPath } from "url"; // Imports for Serving Static Files
+import { dirname, join } from "path";
+
 var alterDB = false;
 
 /* This allows you to run the "alter" command from the command line*/
@@ -35,6 +39,14 @@ app.get("/", (req, res) => {
 });
 
 app.use("/EsportsAPI", routes); // Load the routes from the routes folder
+
+/* ---------- Serving Static Files ------------ */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const formsDirectory = join(__dirname, "../Forms");
+
+app.use("/Forms", express.static(formsDirectory));
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3100;

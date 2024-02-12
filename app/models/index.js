@@ -14,6 +14,11 @@ import metric from "./metric.model.js";
 import matchData from "./matchData.model.js";
 import playerData from "./playerData.model.js";
 
+import form from "./form.model.js";
+import formVersion from "./formVersion.model.js";
+import formVersionField from "./formVersionField.model.js";
+import userFormSignature from "./userFormSignature.model.js";
+
 const db = {};
 
 db.user = user;
@@ -29,6 +34,11 @@ db.matchParticipant = matchParticipant;
 db.metric = metric;
 db.matchData = matchData;
 db.playerData = playerData;
+
+db.form = form;
+db.formVersion = formVersion;
+db.formVersionField = formVersionField;
+db.userFormSignature = userFormSignature;
 
 db.Sequelize = Sequelize;
 
@@ -176,5 +186,45 @@ db.metric.hasMany(db.playerData, {
   onDelete: "CASCADE",
 });
 db.playerData.belongsTo(db.metric, { foreignKey: "metricId" });
+
+db.user.hasMany(db.userFormSignature, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+db.userFormSignature.belongsTo(db.user, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+db.form.hasMany(db.formVersion, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+db.formVersion.belongsTo(db.form, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+db.formVersion.hasMany(db.userFormSignature, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+db.userFormSignature.belongsTo(db.formVersion, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+db.formVersion.hasMany(db.formVersionField, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+db.formVersionField.belongsTo(db.formVersion, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
 
 export default db;
