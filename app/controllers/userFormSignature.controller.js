@@ -153,11 +153,9 @@ formSignatureController.findByFormVersionId = async (req, res) => {
     });
     res.status(200).json(formSignatures);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: `Error retrieving form signatures for formVersionId = ${formVersionId}.`,
-      });
+    res.status(500).json({
+      message: `Error retrieving form signatures for formVersionId = ${formVersionId}.`,
+    });
   }
 };
 
