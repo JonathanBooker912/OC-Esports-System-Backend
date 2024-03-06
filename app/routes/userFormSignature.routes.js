@@ -1,5 +1,5 @@
 import formSignatureController from "../controllers/userFormSignature.controller.js";
-import { authenticate, isAdmin } from "../authorization/authorization.js";
+import { authenticate, isAdmin, isDirector } from "../authorization/authorization.js";
 import { Router } from "express";
 
 const router = Router();
@@ -18,6 +18,8 @@ router.get("/", [authenticate], formSignatureController.findAll);
 
 // Get one Form Signature
 router.get("/:id", [authenticate], formSignatureController.findOne);
+
+router.post("/:id/director", [authenticate, isDirector], formSignatureController.directorSign);
 
 // Get Form Signatures by userId
 router.get(

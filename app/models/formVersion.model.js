@@ -7,6 +7,10 @@ const FormVersion = SequelizeInstance.define("formVersion", {
     autoIncrement: true,
     primaryKey: true,
   },
+  versionNumber: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
   source: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -19,6 +23,10 @@ const FormVersion = SequelizeInstance.define("formVersion", {
     type: Sequelize.DATEONLY,
     allowNull: true,
   },
+  requireDirectorSig: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  }
 });
 
 export default FormVersion;

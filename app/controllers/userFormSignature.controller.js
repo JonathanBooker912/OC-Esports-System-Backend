@@ -1,6 +1,7 @@
 import FormSignature from "../models/userFormSignature.model.js";
 import FormVersion from "../models/formVersion.model.js";
 import Form from "../models/form.model.js";
+import User from "../models/user.model.js"
 
 const formSignatureController = {};
 
@@ -67,6 +68,41 @@ formSignatureController.update = async (req, res) => {
     res
       .status(500)
       .json({ message: `Error updating form signature with id = ${id}.` });
+  }
+};
+
+formSignatureController.directorSign = async (req, res) => {
+  const { id } = req.params;
+  const { directorId, directorFont } = req.body
+
+  const directorUserInfo = await User.findByPk(directorId)
+  const userSignature = await FormSignature.findByPk(id)
+  
+  if(userSignature && directorUserInfo){
+    try {
+      const updatedSignature = userSignature.dataValues
+      updatedSignature.directorFontSelection = directorFont;
+      updatedSignature.directorDateSigned = Date.now()
+      updatedSignature.directorUserId = directorUserInfo.id
+
+      const [updatedRowsCount] = await FormSignature.update(updatedSignature, {
+        where: { id },
+      });
+      if (updatedRowsCount > 0) {
+        res.status(200).json({ message: "Form signature updated successfully" });
+      } else {
+        res
+          .status(404)
+          .json({ message: `Cannot update form signature with id = ${id}.` });
+      }
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: `Error updating form signature with id = ${id}.` });
+    }
+  } else {
+    if(!userSignature) res.status(404).send({ message: `could not find signature with id=${id}`})
+    else res.status(404).send({ message: `could not find director with id=${directorId}`})
   }
 };
 
@@ -147,9 +183,26 @@ formSignatureController.getMostRecentForUser = async (req, res) => {
 
 formSignatureController.findByFormVersionId = async (req, res) => {
   const { formVersionId } = req.params;
+  const { directorUnsigned } = req.query;
+  
+  const condition = {
+    formVersionId
+  }
+
+  if(directorUnsigned){
+    condition.directorDateSigned = null
+  }
+
   try {
     const formSignatures = await FormSignature.findAll({
-      where: { formVersionId },
+      where: condition,
+      include: {
+        model: User,
+        attributes: [
+          'fName',
+          'lName'
+        ]
+      }
     });
     res.status(200).json(formSignatures);
   } catch (error) {
@@ -158,5 +211,8 @@ formSignatureController.findByFormVersionId = async (req, res) => {
     });
   }
 };
+
+
+
 
 export default formSignatureController;
