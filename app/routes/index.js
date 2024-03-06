@@ -16,6 +16,7 @@ import MatchParticipantRoutes from "./matchParticpant.routes.js";
 import ChartDataRotues from "./chartDataRoutes.js";
 
 import FormRoutes from "./form.routes.js";
+import FormVersionRoutes from "./formVersion.routes.js";
 import FormSignatureRoutes from "./userFormSignature.routes.js";
 
 const router = Router();
@@ -38,6 +39,7 @@ router.use("/matchParticipant", MatchParticipantRoutes);
 router.use("/chartData", ChartDataRotues);
 
 router.use("/forms", FormRoutes);
+router.use("/forms", FormVersionRoutes);
 router.use("/formSignatures", FormSignatureRoutes);
 
 export default router;

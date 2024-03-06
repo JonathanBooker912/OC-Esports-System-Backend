@@ -16,7 +16,13 @@ const __dirname = dirname(__filename);
 
 const helpers = {};
 
-helpers.getSignedPDF = async (fields, user, signature, formVersionId) => {
+helpers.getSignedPDF = async (
+  fields,
+  user,
+  director,
+  signature,
+  formVersionId,
+) => {
   const existingPDF = await loadExistingPDF(formVersionId);
 
   const pdfDoc = await PDFDocument.load(existingPDF);
@@ -24,7 +30,7 @@ helpers.getSignedPDF = async (fields, user, signature, formVersionId) => {
 
   pdfDoc.registerFontkit(fontkit);
 
-  await fillFields(pdfDoc, fields, user, signature);
+  await fillFields(pdfDoc, fields, user, director, signature);
 
   form.flatten();
   const pdfBytes = await pdfDoc.saveAsBase64();
@@ -40,23 +46,36 @@ helpers.getUserSignature = async (userId, formVersionId) => {
   return {
     dateSigned: userSignatures[0].dateSigned,
     fontSelection: userSignatures[0].fontSelection,
+    directorUserId: userSignatures[0].directorUserId,
+    directorDateSigned: userSignatures[0].directorDateSigned,
+    directorFont: userSignatures[0].directorFontSelection,
   };
 };
 
-const fillFields = async (pdfDoc, fields, user, signature) => {
+const fillFields = async (pdfDoc, fields, user, director, signature) => {
   const form = pdfDoc.getForm();
 
-  const fontBytes = loadSignatureFont(signature.fontSelection);
-  const signatureFont = await pdfDoc.embedFont(fontBytes);
+  const studentfontBytes = loadSignatureFont(signature.fontSelection);
+  const signatureFont = await pdfDoc.embedFont(studentfontBytes);
+  let directorFont = null;
+
+  if (director != null) {
+    const directorFontBytes = loadSignatureFont(
+      signature.directorFontSelection,
+    );
+    directorFont = await pdfDoc.embedFont(directorFontBytes);
+  }
 
   fields.forEach((field) => {
     const textField = form.getTextField(field.fieldName);
-    const text = getFieldText(field, user, signature);
+    const text = getFieldText(field, user, director, signature);
 
     textField.setText(text);
 
     if (field.fieldName.toLowerCase().includes("signature")) {
-      textField.updateAppearances(signatureFont);
+      if (field.fieldName.toLowerCase().includes("director")) {
+        textField.updateAppearances(directorFont);
+      } else textField.updateAppearances(signatureFont);
     }
   });
 };
@@ -122,9 +141,25 @@ const loadSignatureFont = (font) => {
   return fontBytes;
 };
 
-const getFieldText = (field, user, signature) => {
+const getFieldText = (field, user, director, signature) => {
   if (field.fieldName.toLowerCase().includes("date")) {
     return signature.dateSigned;
+  } else if (field.fieldName.toLowerCase().includes("director")) {
+    if (field.dataAttribute.split("+").length > 1) {
+      const pieces = field.dataAttribute.split("+");
+      let result = "";
+
+      pieces.forEach((piece) => {
+        if (piece == "' '") {
+          result += " ";
+        } else {
+          result += director[piece];
+        }
+      });
+      return result;
+    } else {
+      return director[field.dataAttribute];
+    }
   } else {
     if (field.dataAttribute.split("+").length > 1) {
       const pieces = field.dataAttribute.split("+");
