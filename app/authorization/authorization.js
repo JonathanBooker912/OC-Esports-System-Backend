@@ -151,11 +151,10 @@ export const isDirector = async (req, res, next) => {
     });
 };
 
-
 const auth = {
   authenticate: authenticate,
   isAdmin: isAdmin,
-  isDirector: isDirector
+  isDirector: isDirector,
 };
 
 export default auth;

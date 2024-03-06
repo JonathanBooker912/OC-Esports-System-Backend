@@ -4,7 +4,7 @@ import User from "../models/user.model.js";
 
 import Helpers from "./support/signedFormHelpers.js";
 
-import FormVersion from "../models/formVersion.model.js"
+import FormVersion from "../models/formVersion.model.js";
 
 const exports = {};
 
@@ -14,18 +14,19 @@ exports.modifyAndReturn = async (req, res) => {
   try {
     const user = await User.findByPk(userId);
 
-    const formVersion = await FormVersion.findByPk(formVersionId)
+    const formVersion = await FormVersion.findByPk(formVersionId);
 
     const userSignature = await Helpers.getUserSignature(userId, formVersionId);
 
-    if(formVersion.requireDirectorSig){
-      if(userSignature.directorDateSigned == null) {
-        res.status(400).send({ message: "Awaiting Director Signature"})
-      }
-      else { // include director signature 
-        const director = await User.findByPk(userSignature.directorUserId)
-        console.log(director, userSignature)
-        const fields = await FormFieldUtils.findAllForFormVersion(formVersionId);
+    if (formVersion.requireDirectorSig) {
+      if (userSignature.directorDateSigned == null) {
+        res.status(400).send({ message: "Awaiting Director Signature" });
+      } else {
+        // include director signature
+        const director = await User.findByPk(userSignature.directorUserId);
+        console.log(director, userSignature);
+        const fields =
+          await FormFieldUtils.findAllForFormVersion(formVersionId);
 
         const pdfBytes = await Helpers.getSignedPDF(
           fields,
@@ -36,8 +37,8 @@ exports.modifyAndReturn = async (req, res) => {
         );
         res.status(200).send(pdfBytes);
       }
-    }
-    else {  // no director signature
+    } else {
+      // no director signature
       const fields = await FormFieldUtils.findAllForFormVersion(formVersionId);
 
       const pdfBytes = await Helpers.getSignedPDF(

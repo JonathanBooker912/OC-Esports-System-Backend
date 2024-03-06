@@ -1,7 +1,7 @@
 import FormSignature from "../models/userFormSignature.model.js";
 import FormVersion from "../models/formVersion.model.js";
 import Form from "../models/form.model.js";
-import User from "../models/user.model.js"
+import User from "../models/user.model.js";
 
 const formSignatureController = {};
 
@@ -73,23 +73,25 @@ formSignatureController.update = async (req, res) => {
 
 formSignatureController.directorSign = async (req, res) => {
   const { id } = req.params;
-  const { directorId, directorFont } = req.body
+  const { directorId, directorFont } = req.body;
 
-  const directorUserInfo = await User.findByPk(directorId)
-  const userSignature = await FormSignature.findByPk(id)
-  
-  if(userSignature && directorUserInfo){
+  const directorUserInfo = await User.findByPk(directorId);
+  const userSignature = await FormSignature.findByPk(id);
+
+  if (userSignature && directorUserInfo) {
     try {
-      const updatedSignature = userSignature.dataValues
+      const updatedSignature = userSignature.dataValues;
       updatedSignature.directorFontSelection = directorFont;
-      updatedSignature.directorDateSigned = Date.now()
-      updatedSignature.directorUserId = directorUserInfo.id
+      updatedSignature.directorDateSigned = Date.now();
+      updatedSignature.directorUserId = directorUserInfo.id;
 
       const [updatedRowsCount] = await FormSignature.update(updatedSignature, {
         where: { id },
       });
       if (updatedRowsCount > 0) {
-        res.status(200).json({ message: "Form signature updated successfully" });
+        res
+          .status(200)
+          .json({ message: "Form signature updated successfully" });
       } else {
         res
           .status(404)
@@ -101,8 +103,14 @@ formSignatureController.directorSign = async (req, res) => {
         .json({ message: `Error updating form signature with id = ${id}.` });
     }
   } else {
-    if(!userSignature) res.status(404).send({ message: `could not find signature with id=${id}`})
-    else res.status(404).send({ message: `could not find director with id=${directorId}`})
+    if (!userSignature)
+      res
+        .status(404)
+        .send({ message: `could not find signature with id=${id}` });
+    else
+      res
+        .status(404)
+        .send({ message: `could not find director with id=${directorId}` });
   }
 };
 
@@ -184,13 +192,13 @@ formSignatureController.getMostRecentForUser = async (req, res) => {
 formSignatureController.findByFormVersionId = async (req, res) => {
   const { formVersionId } = req.params;
   const { directorUnsigned } = req.query;
-  
-  const condition = {
-    formVersionId
-  }
 
-  if(directorUnsigned){
-    condition.directorDateSigned = null
+  const condition = {
+    formVersionId,
+  };
+
+  if (directorUnsigned) {
+    condition.directorDateSigned = null;
   }
 
   try {
@@ -198,11 +206,8 @@ formSignatureController.findByFormVersionId = async (req, res) => {
       where: condition,
       include: {
         model: User,
-        attributes: [
-          'fName',
-          'lName'
-        ]
-      }
+        attributes: ["fName", "lName"],
+      },
     });
     res.status(200).json(formSignatures);
   } catch (error) {
@@ -211,8 +216,5 @@ formSignatureController.findByFormVersionId = async (req, res) => {
     });
   }
 };
-
-
-
 
 export default formSignatureController;

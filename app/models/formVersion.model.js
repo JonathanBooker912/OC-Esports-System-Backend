@@ -25,8 +25,8 @@ const FormVersion = SequelizeInstance.define("formVersion", {
   },
   requireDirectorSig: {
     type: Sequelize.BOOLEAN,
-    defaultValue: false
-  }
+    defaultValue: false,
+  },
 });
 
 export default FormVersion;

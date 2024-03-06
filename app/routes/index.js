@@ -16,7 +16,7 @@ import MatchParticipantRoutes from "./matchParticpant.routes.js";
 import ChartDataRotues from "./chartDataRoutes.js";
 
 import FormRoutes from "./form.routes.js";
-import FormVersionRoutes from "./formVersion.routes.js"
+import FormVersionRoutes from "./formVersion.routes.js";
 import FormSignatureRoutes from "./userFormSignature.routes.js";
 
 const router = Router();

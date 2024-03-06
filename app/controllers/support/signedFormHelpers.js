@@ -16,7 +16,13 @@ const __dirname = dirname(__filename);
 
 const helpers = {};
 
-helpers.getSignedPDF = async (fields, user, director, signature, formVersionId) => {
+helpers.getSignedPDF = async (
+  fields,
+  user,
+  director,
+  signature,
+  formVersionId,
+) => {
   const existingPDF = await loadExistingPDF(formVersionId);
 
   const pdfDoc = await PDFDocument.load(existingPDF);
@@ -42,7 +48,7 @@ helpers.getUserSignature = async (userId, formVersionId) => {
     fontSelection: userSignatures[0].fontSelection,
     directorUserId: userSignatures[0].directorUserId,
     directorDateSigned: userSignatures[0].directorDateSigned,
-    directorFont: userSignatures[0].directorFontSelection
+    directorFont: userSignatures[0].directorFontSelection,
   };
 };
 
@@ -51,11 +57,13 @@ const fillFields = async (pdfDoc, fields, user, director, signature) => {
 
   const studentfontBytes = loadSignatureFont(signature.fontSelection);
   const signatureFont = await pdfDoc.embedFont(studentfontBytes);
-  let directorFont = null
+  let directorFont = null;
 
-  if(director != null){
-    const directorFontBytes = loadSignatureFont(signature.directorFontSelection)
-    directorFont = await pdfDoc.embedFont(directorFontBytes)
+  if (director != null) {
+    const directorFontBytes = loadSignatureFont(
+      signature.directorFontSelection,
+    );
+    directorFont = await pdfDoc.embedFont(directorFontBytes);
   }
 
   fields.forEach((field) => {
@@ -65,10 +73,9 @@ const fillFields = async (pdfDoc, fields, user, director, signature) => {
     textField.setText(text);
 
     if (field.fieldName.toLowerCase().includes("signature")) {
-      if(field.fieldName.toLowerCase().includes("director")){
+      if (field.fieldName.toLowerCase().includes("director")) {
         textField.updateAppearances(directorFont);
-      }
-      else textField.updateAppearances(signatureFont);
+      } else textField.updateAppearances(signatureFont);
     }
   });
 };
@@ -137,8 +144,7 @@ const loadSignatureFont = (font) => {
 const getFieldText = (field, user, director, signature) => {
   if (field.fieldName.toLowerCase().includes("date")) {
     return signature.dateSigned;
-  } 
-  else if (field.fieldName.toLowerCase().includes("director")){
+  } else if (field.fieldName.toLowerCase().includes("director")) {
     if (field.dataAttribute.split("+").length > 1) {
       const pieces = field.dataAttribute.split("+");
       let result = "";
@@ -154,8 +160,7 @@ const getFieldText = (field, user, director, signature) => {
     } else {
       return director[field.dataAttribute];
     }
-  }
-  else {
+  } else {
     if (field.dataAttribute.split("+").length > 1) {
       const pieces = field.dataAttribute.split("+");
       let result = "";

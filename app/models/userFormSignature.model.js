@@ -17,16 +17,16 @@ const FormSignature = SequelizeInstance.define("userFormSignature", {
   },
   directorUserId: {
     type: Sequelize.INTEGER,
-    allowNull: true
+    allowNull: true,
   },
   directorDateSigned: {
     type: Sequelize.DATEONLY,
-    allowNull: true
+    allowNull: true,
   },
   directorFontSelection: {
     type: Sequelize.STRING,
-    allowNull: true
-  }
+    allowNull: true,
+  },
 });
 
 export default FormSignature;
