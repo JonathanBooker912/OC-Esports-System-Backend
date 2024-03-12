@@ -19,6 +19,9 @@ import formVersion from "./formVersion.model.js";
 import formVersionField from "./formVersionField.model.js";
 import userFormSignature from "./userFormSignature.model.js";
 
+import facilityReservation from "./facilityReservation.model.js";
+import facilityStation from "./facilityStation.model.js";
+
 const db = {};
 
 db.user = user;
@@ -39,6 +42,9 @@ db.form = form;
 db.formVersion = formVersion;
 db.formVersionField = formVersionField;
 db.userFormSignature = userFormSignature;
+
+db.facilityReservation = facilityReservation;
+db.facilityStation = facilityStation;
 
 db.Sequelize = Sequelize;
 
@@ -223,6 +229,26 @@ db.formVersion.hasMany(db.formVersionField, {
 });
 
 db.formVersionField.belongsTo(db.formVersion, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+db.team.hasMany(db.facilityReservation, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+db.facilityStation.hasMany(db.facilityReservation, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+db.facilityReservation.belongsTo(db.facilityStation, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+db.facilityReservation.belongsTo(db.team, {
   foreignKey: { allowNull: false },
   onDelete: "CASCADE",
 });
