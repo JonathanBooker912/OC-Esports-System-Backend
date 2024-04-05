@@ -112,11 +112,10 @@ db.role.hasMany(
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
 );
 
-db.userRole.belongsTo(
-  db.role,
-  { as: "role" },
-  { foreignKey: { allowNull: false }, onDelete: "CASCADE" },
-);
+db.userRole.belongsTo(db.role, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
 
 // Match relationships
 db.team.hasMany(
