@@ -1,5 +1,6 @@
 import db from "../models/index.js";
 const UserRole = db.userRole;
+const Role = db.role;
 
 const exports = {};
 
@@ -43,6 +44,18 @@ exports.findOneUserRole = async (id) => {
 
 exports.findAllUserRoles = async () => {
   return await UserRole.findAll({ include: ["user"] });
+};
+
+exports.findAllRolesForUser = async (userId) => {
+  return await UserRole.findAll({
+    where: {
+      userId: userId,
+    },
+    include: {
+      model: Role,
+      attributes: ["type"],
+    },
+  });
 };
 
 exports.updateUserRole = async (userrole, id) => {
