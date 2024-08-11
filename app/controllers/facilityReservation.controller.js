@@ -72,11 +72,9 @@ facilityReservationController.create = async (req, res) => {
   }
 
   if (eventOverlap) {
-    return res
-      .status(400)
-      .send({
-        message: "Error Creating event: event overlaps with another event",
-      });
+    return res.status(400).send({
+      message: "Error Creating event: event overlaps with another event",
+    });
   }
 
   FacilityReservation.create(newReservation)

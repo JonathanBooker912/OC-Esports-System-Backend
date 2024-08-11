@@ -45,8 +45,7 @@ const checkEventOverlap = async (newReservation, recurrence) => {
 
     return eventOverlaps;
   } else {
-
-  /* -- Check One Time Event -- */
+    /* -- Check One Time Event -- */
     const events = await FacilityReservationUtils.getAllReservationsForDate(
       facilityStationId,
       moment(startTime).startOf("day").toISOString(),
