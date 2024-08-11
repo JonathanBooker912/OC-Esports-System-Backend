@@ -10,6 +10,9 @@ router.post("/", [authenticate, isAdmin], userrole.create);
 // Retrieve all PersonRole
 router.get("/", [authenticate, isAdmin], userrole.findAll);
 
+// Retrieve all PersonRole for a given user
+router.get("/user/:userId", [authenticate], userrole.findAllForUser);
+
 // Retrieve a single PersonRole with id
 router.get("/:id", [authenticate], userrole.findOne);
 

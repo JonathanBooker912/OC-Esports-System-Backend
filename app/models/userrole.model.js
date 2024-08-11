@@ -7,12 +7,6 @@ const UserRole = SequelizeInstance.define("userRole", {
     autoIncrement: true,
     primaryKey: true,
   },
-  agree: {
-    type: Sequelize.BOOLEAN,
-  },
-  dateSigned: {
-    type: Sequelize.DATE,
-  },
 });
 
 export default UserRole;
