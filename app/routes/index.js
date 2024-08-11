@@ -19,6 +19,10 @@ import FormRoutes from "./form.routes.js";
 import FormVersionRoutes from "./formVersion.routes.js";
 import FormSignatureRoutes from "./userFormSignature.routes.js";
 
+import FacilityReservation from "./facilityReservation.routes.js";
+import ReservationRecurrenceRule from "./reservationRecurrenceRule.routes.js";
+import FacilityStation from "./facilityStation.routes.js";
+
 const router = Router();
 
 router.use("/user", UserRoutes);
@@ -41,5 +45,9 @@ router.use("/chartData", ChartDataRotues);
 router.use("/forms", FormRoutes);
 router.use("/forms", FormVersionRoutes);
 router.use("/formSignatures", FormSignatureRoutes);
+
+router.use("/facility/reservations/", FacilityReservation);
+router.use("/facility/reservationRecurrence/", ReservationRecurrenceRule);
+router.use("/facility/stations/", FacilityStation);
 
 export default router;

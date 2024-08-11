@@ -51,9 +51,8 @@ export const isAdmin = async (req, res, next) => {
     .then(async (data) => {
       let session = data[0];
       if (session.userId != null) {
-        console.log(session.userId);
         await UserRole.findAll({
-          where: { userId: session.userId, status: "approved" },
+          where: { userId: session.userId },
           as: "userrole",
           include: [
             {
@@ -65,6 +64,7 @@ export const isAdmin = async (req, res, next) => {
         })
           .then((data) => {
             roles = data;
+            console.log(data);
             for (let i = 0; i < roles.length; i++) {
               if (roles[i].role.type == "Admin") {
                 next();
