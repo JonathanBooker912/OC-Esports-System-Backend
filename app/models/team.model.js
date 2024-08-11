@@ -17,8 +17,8 @@ const Team = SequelizeInstance.define("team", {
   },
   teamColor: {
     type: Sequelize.STRING,
-    allowNull: true
-  }
+    allowNull: true,
+  },
 });
 
 export default Team;

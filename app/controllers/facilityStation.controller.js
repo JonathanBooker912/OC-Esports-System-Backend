@@ -11,7 +11,8 @@ facilityStationController.create = (req, res) => {
   // Check if any of the required parameters are missing or empty
   if (!name || numSeats === undefined) {
     return res.status(400).json({
-      message: "All parameters (name, numSeats) are required and cannot be empty!",
+      message:
+        "All parameters (name, numSeats) are required and cannot be empty!",
     });
   }
 
@@ -32,7 +33,9 @@ facilityStationController.getAll = (req, res) => {
       res.send(facilityStations);
     })
     .catch((err) => {
-      res.status(500).json({ error: err.message || "Unable to fetch FacilityStations" });
+      res
+        .status(500)
+        .json({ error: err.message || "Unable to fetch FacilityStations" });
     });
 };
 
@@ -47,7 +50,9 @@ facilityStationController.getById = (req, res) => {
       res.status(200).json(facilityStation);
     })
     .catch((err) => {
-      res.status(500).json({ error: err.message || "Unable to fetch FacilityStation" });
+      res
+        .status(500)
+        .json({ error: err.message || "Unable to fetch FacilityStation" });
     });
 };
 
@@ -87,11 +92,15 @@ facilityStationController.delete = (req, res) => {
         return res.status(404).json({ error: "FacilityStation not found" });
       } else {
         facilityStation.destroy();
-        return res.status(200).json({ message: "FacilityStation deleted successfully" });
+        return res
+          .status(200)
+          .json({ message: "FacilityStation deleted successfully" });
       }
     })
     .catch((err) => {
-      return res.status(500).json({ error: err.message || "Unable to delete FacilityStation" });
+      return res
+        .status(500)
+        .json({ error: err.message || "Unable to delete FacilityStation" });
     });
 };
 

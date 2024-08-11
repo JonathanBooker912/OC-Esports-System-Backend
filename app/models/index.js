@@ -20,6 +20,7 @@ import formVersionField from "./formVersionField.model.js";
 import userFormSignature from "./userFormSignature.model.js";
 
 import facilityReservation from "./facilityReservation.model.js";
+import reservationRecurrenceRule from "./reservationRecurrenceRule.model.js";
 import facilityStation from "./facilityStation.model.js";
 
 const db = {};
@@ -44,6 +45,7 @@ db.formVersionField = formVersionField;
 db.userFormSignature = userFormSignature;
 
 db.facilityReservation = facilityReservation;
+db.reservationRecurrenceRule = reservationRecurrenceRule;
 db.facilityStation = facilityStation;
 
 db.Sequelize = Sequelize;
@@ -249,6 +251,16 @@ db.facilityReservation.belongsTo(db.facilityStation, {
 });
 
 db.facilityReservation.belongsTo(db.team, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+db.facilityReservation.hasMany(db.reservationRecurrenceRule, {
+  foreignKey: { allowNull: false },
+  onDelete: "CASCADE",
+});
+
+db.reservationRecurrenceRule.belongsTo(db.facilityReservation, {
   foreignKey: { allowNull: false },
   onDelete: "CASCADE",
 });

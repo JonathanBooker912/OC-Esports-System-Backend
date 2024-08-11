@@ -9,7 +9,7 @@ const FacilityReservation = SequelizeInstance.define("facilityReservation", {
   },
   reservationType: {
     type: Sequelize.ENUM("Practice", "Match"),
-    allowNull: false
+    allowNull: false,
   },
   startTime: {
     type: Sequelize.DATE,
@@ -17,6 +17,10 @@ const FacilityReservation = SequelizeInstance.define("facilityReservation", {
   },
   endTime: {
     type: Sequelize.DATE,
+  },
+  isOneTime: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
   },
 });
 
